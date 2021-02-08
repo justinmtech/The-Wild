@@ -23,8 +23,9 @@ public class CommandHandler {
         this.computer = computer;
         this.display = new Display(player, computer);
         this.skills = new Skills(player, computer);
-        this.shop = new Shop();
+        this.shop = new Shop(player);
         this.inn = new Inn();
+        this.resourceManager = new ResourceManager();
 
     }
 
@@ -90,7 +91,7 @@ public class CommandHandler {
     public void goToShop(Entity player) {
         display.goToShop();
         player.setLocation("shop");
-        shop.loop(player);
+        shop.loop();
     }
 
     public void goToWild(Entity player) {

@@ -5,18 +5,23 @@ import com.justinmtech.thewild.entity.Entity;
 import java.util.Scanner;
 
 public class Shop {
+    private Entity player;
     private String input;
     private boolean quit = false;
     private boolean shopping = true;
 
-    public void loop(Entity player) {
+    public Shop(Entity player) {
+        this.player = player;
+    }
+
+    public void loop() {
         welcome();
         displayItems();
         talk();
         while (!quit) {
             scanInput(player);
         }
-        player.location = "town";
+        player.setLocation("town");
         System.out.println("*You return to town*");
     }
 
@@ -30,17 +35,6 @@ public class Shop {
     public void talk() {
         System.out.println("--------------------------------------------");
     }
-
-/*    public String stringToItem(String input) {
-        String[] items = {"Short Sword", "Long Sword", "Leather Armor", "Iron Armor"};
-
-        int i;
-        for (i = 0; i < items.length; i++) {
-            items[i].equalsIgnoreCase(input);
-        }
-
-        return items[input];
-    }*/
 
     public void displayItems() {
         String[] items = {"Short_Sword", "Long_Sword", "Leather_Armor", "Iron_Armor"};
@@ -87,11 +81,11 @@ public class Shop {
 
     public void giveItem(Entity player) {
         boolean itemGiven = false;
-        int invSize = player.inventory.length;
+        int invSize = player.getInventory().length;
         int i;
         for (i = 0; i < invSize; i++) {
-            if (player.inventory[i].equalsIgnoreCase("Air")) {
-                player.inventory[i] = input;
+            if (player.getInventory()[i].equalsIgnoreCase("Air")) {
+                player.getInventory()[i] = input;
                 itemGiven = true;
                 break;
             }
@@ -102,11 +96,11 @@ public class Shop {
     }
 
     public void transaction(Entity player) {
-        if (player.coins >= getCost(input)) {
-            int newBalance = player.coins - getCost(input);
-            player.coins = newBalance;
+        if (player.getCoins() >= getCost(input)) {
+            int newBalance = player.getCoins() - getCost(input);
+            player.setCoins(newBalance);
             giveItem(player);
-            System.out.println("You spent " + getCost(input) + " and now have " + player.coins + " Coins.");
+            System.out.println("You spent " + getCost(input) + " and now have " + player.getCoins() + " Coins.");
         } else {
             System.out.println("Sorry, you don't have enough money for this!");
         }
@@ -119,7 +113,6 @@ public class Shop {
         for (i = 0; i < items.length; i++) {
             if (input.equalsIgnoreCase(items[i])) {
                 inStock = true;
-                return inStock;
             } else {
                 inStock = false;
             }

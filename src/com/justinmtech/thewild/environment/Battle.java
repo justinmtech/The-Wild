@@ -16,17 +16,16 @@ public class Battle {
 
     public Battle(Entity player, Entity computer) {
         this.command = new CommandParser();
-        this.commandHandler = new CommandHandler();
+        this.commandHandler = new CommandHandler(player, computer);
         this.display = new Display(player, computer);
         this.skills = new Skills(player, computer);
     }
 
     public void combatLoop() {
-        Entity computer = new Entity(pickFoe(), setLevel(player));
+        computer = new Entity(pickFoe(), setLevel(player));
         pickLoadout(computer);
         computer.setInCombat(true);
         player.setInCombat(true);
-        setHP(computer);
 
         display.newBattle(computer);
 
@@ -38,13 +37,12 @@ public class Battle {
             } else {
                 if (player.isAlive()) {
                     player.setCoins(player.getCoins() + getRandomNumber(computer.getLevel(), player.getBattles() * 4));
-                    player.xp = player.xp + getRandomNumber(computer.level * 25, computer.level * 100);
+                    player.setXp(player.getXp() + getRandomNumber(computer.getLevel() * 25, computer.getLevel() * 100));
                     display.combatOutcome(player, computer);
                     calculateLevel(player);
+                    player.calculateLevel(player);
                     setHP(player);
                     player.battles++;
-                    player.inCombat = false;
-                    commandHandler.save(player);
                 } else {
                     display.combatOutcome(player, computer);
                     player.coins = 0;
@@ -54,9 +52,9 @@ public class Battle {
                     player.inventory[2] = "Air";
                     player.inventory[3] = "Air";
                     player.hp = player.maxHP;
-                    player.inCombat = false;
-                    commandHandler.save(player);
                 }
+                player.inCombat = false;
+                commandHandler.save(player);
             }
         }
     }
