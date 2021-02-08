@@ -3,25 +3,32 @@ package com.justinmtech.thewild.ui;
 import com.justinmtech.thewild.entity.Entity;
 
 public class Display {
+    private Entity player;
+    private Entity computer;
+
+    public Display(Entity player, Entity computer) {
+        this.player = player;
+        this.computer = computer;
+    }
 
     public void combatOutput(Entity player, Entity computer) {
         line();
-        System.out.println("Your HP: " + (int)player.hp + "/" + player.maxHP + " || " + computer.name + " HP: " + (int)computer.hp + "/" + computer.maxHP);
+        System.out.println("Your HP: " + (int)player.getHp() + "/" + player.getMaxHP() + " || " + computer.getName() + " HP: " + (int)computer.hp + "/" + computer.maxHP);
         line();
     }
 
     public void combatOutcome(Entity player, Entity computer) {
-        if (player.isAlive && player.inCombat) {
+        if (player.isAlive() && player.isInCombat()) {
             line();
-            System.out.println("You killed the " + computer.name);
-            System.out.println("Total Coins: " + player.coins + " Coins");
-        } else if (player.isAlive && !player.inCombat) {
+            System.out.println("You killed the " + computer.getName());
+            System.out.println("Total Coins: " + player.getCoins() + " Coins");
+        } else if (player.isAlive() && !player.isInCombat()) {
             line();
-            System.out.println("You fled the battle.. " + (int)player.hp + "/" + player.maxHP + " HP");
+            System.out.println("You fled the battle.. " + (int)player.getHp() + "/" + player.getMaxHP() + " HP");
             line();
-        } else if (computer.isAlive) {
+        } else if (computer.isAlive()) {
             line();
-            System.out.println("You were slain by the " + computer.name);
+            System.out.println("You were slain by the " + computer.getName());
             line();
             System.out.println("*You lose your items and respawn in town*");
         } else {
@@ -32,7 +39,7 @@ public class Display {
 
     public void newBattle(Entity computer) {
         line();
-        System.out.println("You are now in battle with a " + computer.name + " (Lvl " + computer.level + ")");
+        System.out.println("You are now in battle with a " + computer.getName() + " (Lvl " + computer.getLevel() + ")");
         line();
     }
 
@@ -73,18 +80,18 @@ public class Display {
 
     public void info(Entity player) {
         line();
-        System.out.println("Player Info: " + player.name);
+        System.out.println("Player Info: " + player.getName());
         line();
-        System.out.println("HP: " + (int)player.hp + "/" + player.maxHP);
-        System.out.println("Coins: " + player.coins);
-        System.out.println("Level: " + player.level);
-        System.out.println("XP: " + player.xp);
-        System.out.println("Location: " + player.location);
+        System.out.println("HP: " + (int)player.getHp() + "/" + player.getMaxHP());
+        System.out.println("Coins: " + player.getCoins());
+        System.out.println("Level: " + player.getLevel());
+        System.out.println("XP: " + player.getXp());
+        System.out.println("Location: " + player.getLocation());
         System.out.print("Inventory: ");
         int i;
-        for (i = 0; i < player.inventory.length; i++) {
-            if (!player.inventory[i].equalsIgnoreCase("Air")) {
-                System.out.print(player.inventory[i] + " ");
+        for (i = 0; i < player.getInventory().length; i++) {
+            if (!player.getInventory()[i].equalsIgnoreCase("Air")) {
+                System.out.print(player.getInventory()[i] + " ");
             }
         }
         System.out.println();

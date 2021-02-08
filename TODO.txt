@@ -1,0 +1,3 @@
+- Reduce tight coupling between classes
+- Reduce redundant code
+- Improve dependency and reference handling

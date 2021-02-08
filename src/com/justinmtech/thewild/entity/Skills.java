@@ -1,35 +1,42 @@
 package com.justinmtech.thewild.entity;
 
 public class Skills {
+    private Entity self;
+    private Entity enemy;
 
-    public void slash(Entity enemy, Entity self) {
-        double afterAttackHP = enemy.hp - ((((getRandomNumber(1, 2) + weaponDamage(self)) * levelMultiplier(self))) / armorRating(enemy));
-        enemy.hp = afterAttackHP;
+    public Skills(Entity self, Entity enemy) {
+        this.self = self;
+        this.enemy = enemy;
+    }
+
+    public void slash() {
+        double afterAttackHP = enemy.getHp() - ((((getRandomNumber(1, 2) + weaponDamage()) * levelMultiplier())) / armorRating(enemy));
+        enemy.setHp(afterAttackHP);
         enemy.isAlive(enemy);
     }
 
-    public void stab(Entity enemy, Entity self) {
-        double afterAttackHP = enemy.hp - ((((getRandomNumber(0, 3) + weaponDamage(self)) * levelMultiplier(self))) / armorRating(enemy));
-        enemy.hp = afterAttackHP;
+    public void stab() {
+        double afterAttackHP = enemy.getHp() - ((((getRandomNumber(0, 3) + weaponDamage()) * levelMultiplier())) / armorRating(enemy));
+        enemy.setHp(afterAttackHP);
         enemy.isAlive(enemy);
     }
 
-    public void heal(Entity enemy, Entity self) {
-        double afterHealHP = self.hp + (getRandomNumber(0, 1) * levelMultiplier(self));
-        self.hp = afterHealHP;
+    public void heal() {
+        double afterHealHP = self.getHp() + (getRandomNumber(0, 1) * levelMultiplier());
+        self.setHp(afterHealHP);
         self.isAlive(self);
     }
 
-    public void flea(Entity enemy, Entity self) {
+    public void flea() {
         int chance = getRandomNumber(0, 2);
         double afterFleaHP;
         if (chance == 0) {
-            afterFleaHP = self.hp / 2;
-            self.hp = afterFleaHP;
+            afterFleaHP = self.getHp() / 2;
+            self.setHp(afterFleaHP);
             self.isAlive(self);
-            self.inCombat = false;
+            self.setInCombat(false);
         } else if (chance == 1) {
-            self.inCombat = false;
+            self.setInCombat(false);
 
         } else {
             System.out.println("You were not able to flea the battle..");
@@ -43,40 +50,40 @@ public class Skills {
         return randomNumber;
     }
 
-    public void doRandomSkill(Entity enemy, Entity self) {
+    public void doRandomSkill() {
         int number = getRandomNumber(0, 10);
         if (number > 2) {
-            slash(enemy, self);
+            slash();
         } else if (number < 6) {
-            stab(enemy, self);
+            stab();
         } else {
-            heal(enemy, self);
+            heal();
         }
     }
 
-    public double levelMultiplier(Entity self) {
+    public double levelMultiplier() {
         double multiplier = (getLevel(self) / 10) + 1;
         return multiplier;
     }
 
-    public int getLevel(Entity self) {
-        if (self.isComputer) {
-            return self.level;
+    public int getLevel() {
+        if (self.isComputer()) {
+            return self.getLevel();
         } else {
-            int level = (self.xp / 10) + 1;
+            int level = (self.getXp() / 10) + 1;
             return level;
         }
     }
 
-    public double weaponDamage(Entity self) {
+    public double weaponDamage() {
         int i;
         int damage = 1;
-        for (i = 0; i < self.inventory.length; i++) {
+        for (i = 0; i < self.getInventory().length; i++) {
 
-            if (self.inventory[i].equalsIgnoreCase("Short Sword")) {
+            if (self.getInventory()[i].equalsIgnoreCase("Short Sword")) {
                 damage = 2;
                 break;
-            } else if (self.inventory[i].equalsIgnoreCase("Long Sword")) {
+            } else if (self.getInventory()[i].equalsIgnoreCase("Long Sword")) {
                 damage = 3;
                 break;
             } else {
@@ -86,15 +93,15 @@ public class Skills {
         return damage;
     }
 
-    public double armorRating(Entity self) {
+    public double armorRating() {
         int i;
         int rating = 0;
-        for (i = 0; i < self.inventory.length; i++) {
+        for (i = 0; i < self.getInventory().length; i++) {
 
-            if (self.inventory[i].equalsIgnoreCase("Leather Armor")) {
+            if (self.getInventory()[i].equalsIgnoreCase("Leather Armor")) {
                 rating = 2;
                 break;
-            } else if (self.inventory[i].equalsIgnoreCase("Iron Armor")) {
+            } else if (self.getInventory()[i].equalsIgnoreCase("Iron Armor")) {
                 rating = 3;
                 break;
             } else {
