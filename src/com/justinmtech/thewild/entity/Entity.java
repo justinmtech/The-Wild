@@ -131,6 +131,8 @@ public class Entity {
         return alive;
     }
 
+    //Not sure what this is for yet
+    //It seems to be for setting the hp of a player after a battle, but I don't know why both are set
     public void setHP(Entity entity) {
         if (entity.isComputer) {
             entity.maxHP = entity.level * 15;

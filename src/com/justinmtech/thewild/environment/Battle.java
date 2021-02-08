@@ -39,28 +39,23 @@ public class Battle {
                     player.setCoins(player.getCoins() + getRandomNumber(computer.getLevel(), player.getBattles() * 4));
                     player.setXp(player.getXp() + getRandomNumber(computer.getLevel() * 25, computer.getLevel() * 100));
                     display.combatOutcome(player, computer);
-                    calculateLevel(player);
                     player.calculateLevel(player);
-                    setHP(player);
-                    player.battles++;
+                    player.setBattles(player.getBattles() + 1);
                 } else {
                     display.combatOutcome(player, computer);
-                    player.coins = 0;
-                    player.location = "town";
-                    player.inventory[0] = "Air";
-                    player.inventory[1] = "Air";
-                    player.inventory[2] = "Air";
-                    player.inventory[3] = "Air";
-                    player.hp = player.maxHP;
+                    player.setCoins(0);
+                    player.setLocation("town");
+                    player.setInventory(new String[]{"Air", "Air", "Air", "Air"});
+                    player.setHp(player.getMaxHP());
                 }
-                player.inCombat = false;
+                player.setInCombat(false);
                 commandHandler.save(player);
             }
         }
     }
 
     public boolean isBattleOver(Entity player, Entity computer) {
-        boolean isBattleOver = (!player.isAlive || !computer.isAlive || !player.inCombat);
+        boolean isBattleOver = (!player.isAlive() || !computer.isAlive() || !player.isInCombat());
         return isBattleOver;
     }
 
@@ -78,12 +73,12 @@ public class Battle {
     public void pickLoadout(Entity entity) {
         int randomNumber = getRandomNumber(0 , 10);
         if (randomNumber > 4 && randomNumber < 6) {
-            entity.inventory[0] = "Short Sword";
+            entity.setInventory(new String[]{"Short Sword"});
         } else if (randomNumber < 4 && randomNumber > 2) {
-            entity.inventory[0] = "Long Sword";
+            entity.setInventory(new String[]{"Long Sword"});
         } else if (randomNumber < 2) {
-            entity.inventory[0] = "Long Sword";
-            entity.inventory[1] = "Iron Armor";
+            entity.setInventory(new String[]{"Long Sword"});
+            entity.setInventory(new String[]{"Long Sword", "Iron Armor"});
 
         } else {
             entity.inventory[0] = "Air";
