@@ -2,7 +2,7 @@
   <artifact type="jar" name="The_Wild:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/The_Wild_jar</output-path>
     <root id="archive" name="The_Wild.jar">
-      <element id="module-output" name="MedievalWorld" />
+      <element id="module-output" name="The-Wild" />
     </root>
   </artifact>
 </component>
