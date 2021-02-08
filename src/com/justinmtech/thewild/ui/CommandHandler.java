@@ -7,20 +7,33 @@ import com.justinmtech.thewild.entity.Entity;
 import com.justinmtech.thewild.entity.Skills;
 import com.justinmtech.thewild.environment.Inn;
 import com.justinmtech.thewild.environment.Shop;
+import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
 public class CommandHandler {
-    Display display = new Display();
-    Skills skills = new Skills();
-    Shop shop = new Shop();
-    Inn inn = new Inn();
-    ResourceManager resourceManager = new ResourceManager();
+    private Entity player;
+    private Entity computer;
+    private Display display;
+    private Skills skills;
+    private Shop shop;
+    private Inn inn;
+    private ResourceManager resourceManager;
+
+    public CommandHandler(Entity player, Entity computer) {
+        this.player = player;
+        this.computer = computer;
+        this.display = new Display(player, computer);
+        this.skills = new Skills(player, computer);
+        this.shop = new Shop();
+        this.inn = new Inn();
+
+    }
 
     public void help(Entity entity) {
-        if (entity.location.equalsIgnoreCase("town")) {
+        if (entity.getLocation().equalsIgnoreCase("town")) {
             display.townHelp();
-        } else if (entity.location.equalsIgnoreCase("wild")) {
+        } else if (entity.getLocation().equalsIgnoreCase("wild")) {
             display.wildHelp();
-        } else if (entity.location.equalsIgnoreCase("wild") && entity.inCombat) {
+        } else if (entity.getLocation().equalsIgnoreCase("wild") && entity.isInCombat()) {
             display.combatHelp();
         } else {
             display.otherHelp();
@@ -30,15 +43,15 @@ public class CommandHandler {
     public void save(Entity player) {
         SaveData data = new SaveData();
 
-        data.name = player.name;
-        data.hp = player.hp;
-        data.coins = player.coins;
-        data.xp = player.xp;
-        data.location = player.location;
-        data.inventory = player.inventory;
+        data.name = player.getName();
+        data.hp = player.getHp();
+        data.coins = player.getCoins();
+        data.xp = player.getXp();
+        data.location = player.getLocation();
+        data.inventory = player.getInventory();
 
         try {
-            ResourceManager.save(data, player.name + "_data");
+            ResourceManager.save(data, player.getName() + "_data");
         }
         catch (Exception e) {
             System.out.println("Couldn't save: " + e.getMessage());
@@ -47,7 +60,7 @@ public class CommandHandler {
 
     public void load(Entity player) {
         try {
-            SaveData data = (SaveData) ResourceManager.load(player.name + "_data");
+            SaveData data = (SaveData) ResourceManager.load(player.getName() + "_data");
 
             String playerName = data.name;
             double playerHP = data.hp;
@@ -56,12 +69,12 @@ public class CommandHandler {
             String playerLoc = data.location;
             String[] playerInv = data.inventory;
 
-            player.name = playerName;
-            player.hp = playerHP;
-            player.coins = playerCoins;
-            player.xp = playerXP;
-            player.location = playerLoc;
-            player.inventory = playerInv;
+            player.setName(playerName);
+            player.setHp(playerHP);
+            player.setCoins(playerCoins);
+            player.setXp(playerXP);
+            player.setLocation(playerLoc);
+            player.setInventory(playerInv);
 
             System.out.println("Data loaded!");
         }
@@ -76,16 +89,16 @@ public class CommandHandler {
 
     public void goToShop(Entity player) {
         display.goToShop();
-        player.location = "shop";
+        player.setLocation("shop");
         shop.loop(player);
     }
 
     public void goToWild(Entity player) {
-        if (player.location.equalsIgnoreCase("wild")) {
+        if (player.getLocation().equalsIgnoreCase("wild")) {
             display.alreadyInWild();
         } else {
             display.goToWild();
-            player.location = "wild";
+            player.setLocation("wild");
         }
     }
 
@@ -94,21 +107,21 @@ public class CommandHandler {
     }
 
     public void goToTown(Entity player) {
-        if (player.location.equalsIgnoreCase("town")) {
+        if (player.getLocation().equalsIgnoreCase("town")) {
             display.alreadyInTown();
         } else {
             display.returnTown();
-            player.location = "town";
-            player.inCombat = false;
+            player.setLocation("town");
+            player.setInCombat(false);
         }
     }
 
     public void battle(Entity player) {
-        if (player.location.equalsIgnoreCase("wild")) {
-            Battle start = new Battle();
-            player.inCombat = true;
+        if (player.getLocation().equalsIgnoreCase("wild")) {
+            Battle start = new Battle(player, computer);
+            player.setInCombat(true);
             display.searchBattle();
-            start.combatLoop(player);
+            start.combatLoop();
 
         } else {
             display.noEnemiesNear();
@@ -116,18 +129,18 @@ public class CommandHandler {
     }
 
     public void punch(Entity enemy, Entity self) {
-        skills.slash(enemy, self);
+        skills.slash();
     }
 
     public void kick(Entity enemy, Entity self) {
-        skills.stab(enemy, self);
+        skills.stab();
     }
 
     public void heal(Entity enemy, Entity self) {
-        skills.heal(enemy, self);
+        skills.heal();
     }
 
     public void flea(Entity enemy, Entity self) {
-        skills.flea(enemy, self);
+        skills.flea();
     }
 }

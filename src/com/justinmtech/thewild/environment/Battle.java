@@ -6,30 +6,38 @@ import com.justinmtech.thewild.entity.Skills;
 import com.justinmtech.thewild.ui.CommandHandler;
 import com.justinmtech.thewild.ui.CommandParser;
 
-public class Battle extends Entity {
+public class Battle {
+    private CommandParser command;
+    private CommandHandler commandHandler;
+    private Display display;
+    private Entity player;
+    private Entity computer;
+    private Skills skills;
 
-    public void combatLoop(Entity player) {
-        CommandParser command = new CommandParser();
-        CommandHandler commandHandler = new CommandHandler();
-        Display display = new Display();
+    public Battle(Entity player, Entity computer) {
+        this.command = new CommandParser();
+        this.commandHandler = new CommandHandler();
+        this.display = new Display(player, computer);
+        this.skills = new Skills(player, computer);
+    }
+
+    public void combatLoop() {
         Entity computer = new Entity(pickFoe(), setLevel(player));
         pickLoadout(computer);
-        computer.isComputer = true;
-        player.inCombat = true;
+        computer.setInCombat(true);
+        player.setInCombat(true);
         setHP(computer);
-
-        Skills skills = new Skills();
 
         display.newBattle(computer);
 
         while (!isBattleOver(player, computer)) {
             command.parseCombatCommands(computer, player);
-            skills.doRandomSkill(player, computer);
+            skills.doRandomSkill();
             if (!isBattleOver(player, computer)) {
                 display.combatOutput(player, computer);
             } else {
-                if (player.isAlive) {
-                    player.coins = player.coins + getRandomNumber(computer.level, player.battles * 4);
+                if (player.isAlive()) {
+                    player.setCoins(player.getCoins() + getRandomNumber(computer.getLevel(), player.getBattles() * 4));
                     player.xp = player.xp + getRandomNumber(computer.level * 25, computer.level * 100);
                     display.combatOutcome(player, computer);
                     calculateLevel(player);

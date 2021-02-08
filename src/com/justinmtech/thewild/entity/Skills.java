@@ -10,13 +10,13 @@ public class Skills {
     }
 
     public void slash() {
-        double afterAttackHP = enemy.getHp() - ((((getRandomNumber(1, 2) + weaponDamage()) * levelMultiplier())) / armorRating(enemy));
+        double afterAttackHP = enemy.getHp() - ((((getRandomNumber(1, 2) + weaponDamage()) * levelMultiplier())) / armorRating());
         enemy.setHp(afterAttackHP);
         enemy.isAlive(enemy);
     }
 
     public void stab() {
-        double afterAttackHP = enemy.getHp() - ((((getRandomNumber(0, 3) + weaponDamage()) * levelMultiplier())) / armorRating(enemy));
+        double afterAttackHP = enemy.getHp() - ((((getRandomNumber(0, 3) + weaponDamage()) * levelMultiplier())) / armorRating());
         enemy.setHp(afterAttackHP);
         enemy.isAlive(enemy);
     }
@@ -62,7 +62,7 @@ public class Skills {
     }
 
     public double levelMultiplier() {
-        double multiplier = (getLevel(self) / 10) + 1;
+        double multiplier = (self.getLevel() / 10) + 1;
         return multiplier;
     }
 
