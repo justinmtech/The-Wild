@@ -15,7 +15,7 @@ public class Battle {
     private Skills skills;
 
     public Battle(Entity player, Entity computer) {
-        this.command = new CommandParser();
+        this.command = new CommandParser(player, computer);
         this.commandHandler = new CommandHandler(player, computer);
         this.display = new Display(player, computer);
         this.skills = new Skills(player, computer);
@@ -27,29 +27,29 @@ public class Battle {
         computer.setInCombat(true);
         player.setInCombat(true);
 
-        display.newBattle(computer);
+        display.newBattle();
 
         while (!isBattleOver(player, computer)) {
-            command.parseCombatCommands(computer, player);
+            command.parseCombatCommands();
             skills.doRandomSkill();
             if (!isBattleOver(player, computer)) {
-                display.combatOutput(player, computer);
+                display.combatOutput();
             } else {
                 if (player.isAlive()) {
                     player.setCoins(player.getCoins() + getRandomNumber(computer.getLevel(), player.getBattles() * 4));
                     player.setXp(player.getXp() + getRandomNumber(computer.getLevel() * 25, computer.getLevel() * 100));
-                    display.combatOutcome(player, computer);
+                    display.combatOutcome();
                     player.calculateLevel(player);
                     player.setBattles(player.getBattles() + 1);
                 } else {
-                    display.combatOutcome(player, computer);
+                    display.combatOutcome();
                     player.setCoins(0);
                     player.setLocation("town");
                     player.setInventory(new String[]{"Air", "Air", "Air", "Air"});
                     player.setHp(player.getMaxHP());
                 }
                 player.setInCombat(false);
-                commandHandler.save(player);
+                commandHandler.save();
             }
         }
     }
@@ -81,15 +81,14 @@ public class Battle {
             entity.setInventory(new String[]{"Long Sword", "Iron Armor"});
 
         } else {
-            entity.inventory[0] = "Air";
-            entity.inventory[1] = "Air";
+            entity.setInventory(new String[]{"Air", "Air"});
         }
     }
 
     public short setLevel(Entity player) {
         short level;
-        if (player.level > 2) {
-            level = (short) getRandomNumber(player.level - 1, player.level + 2);
+        if (player.getLevel() > 2) {
+            level = (short) getRandomNumber(player.getLevel() - 1, player.getLevel() + 2);
         } else level = 1;
         return level;
     }

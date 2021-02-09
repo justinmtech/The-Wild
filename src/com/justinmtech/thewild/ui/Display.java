@@ -11,13 +11,13 @@ public class Display {
         this.computer = computer;
     }
 
-    public void combatOutput(Entity player, Entity computer) {
+    public void combatOutput() {
         line();
-        System.out.println("Your HP: " + (int)player.getHp() + "/" + player.getMaxHP() + " || " + computer.getName() + " HP: " + (int)computer.hp + "/" + computer.maxHP);
+        System.out.println("Your HP: " + (int)player.getHp() + "/" + player.getMaxHP() + " || " + computer.getName() + " HP: " + (int)computer.getHp() + "/" + computer.getMaxHP());
         line();
     }
 
-    public void combatOutcome(Entity player, Entity computer) {
+    public void combatOutcome() {
         if (player.isAlive() && player.isInCombat()) {
             line();
             System.out.println("You killed the " + computer.getName());
@@ -37,7 +37,7 @@ public class Display {
         }
     }
 
-    public void newBattle(Entity computer) {
+    public void newBattle() {
         line();
         System.out.println("You are now in battle with a " + computer.getName() + " (Lvl " + computer.getLevel() + ")");
         line();
@@ -78,7 +78,7 @@ public class Display {
         System.out.println("> quit - quit the game");
     }
 
-    public void info(Entity player) {
+    public void info() {
         line();
         System.out.println("Player Info: " + player.getName());
         line();

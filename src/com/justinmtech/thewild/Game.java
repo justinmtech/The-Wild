@@ -7,6 +7,8 @@ import com.justinmtech.thewild.ui.CommandHandler;
 import java.util.Scanner;
 
 public class Game {
+    private Entity player;
+    private Entity computer;
     private Scanner scanner;
     private CommandParser commandParser;
     private CommandHandler commandHandler;
@@ -14,22 +16,22 @@ public class Game {
 
     public Game() {
         scanner = new Scanner(System.in);
-        this.commandParser = new CommandParser();
-        this.commandHandler = new CommandHandler();
+        this.commandParser = new CommandParser(player, computer);
+        this.commandHandler = new CommandHandler(player, computer);
         gameRunning = true;
     }
 
     public void game() {
         System.out.println("> Guard: Welcome to Izengar. Who are you?");
         String name = scanner.next();
-        Entity player = new Entity(name);
-        commandHandler.load(player);
+        player = new Entity(name);
+        commandHandler.load();
 
-        System.out.println("> Guard: Nice to meet ya' " + player.name + ".");
+        System.out.println("> Guard: Nice to meet ya' " + player.getName() + ".");
         System.out.println("> Guard: Use 'wild' to go adventure in the wild or 'help' for a list of commands.");
 
         while (gameRunning) {
-            commandParser.parseCommand(player);
+            commandParser.parseCommand();
         }
     }
 }

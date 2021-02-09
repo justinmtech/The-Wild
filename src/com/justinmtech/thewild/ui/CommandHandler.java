@@ -29,19 +29,19 @@ public class CommandHandler {
 
     }
 
-    public void help(Entity entity) {
-        if (entity.getLocation().equalsIgnoreCase("town")) {
+    public void help() {
+        if (player.getLocation().equalsIgnoreCase("town")) {
             display.townHelp();
-        } else if (entity.getLocation().equalsIgnoreCase("wild")) {
+        } else if (player.getLocation().equalsIgnoreCase("wild")) {
             display.wildHelp();
-        } else if (entity.getLocation().equalsIgnoreCase("wild") && entity.isInCombat()) {
+        } else if (player.getLocation().equalsIgnoreCase("wild") && player.isInCombat()) {
             display.combatHelp();
         } else {
             display.otherHelp();
         }
     }
 
-    public void save(Entity player) {
+    public void save() {
         SaveData data = new SaveData();
 
         data.name = player.getName();
@@ -59,7 +59,7 @@ public class CommandHandler {
         }
     }
 
-    public void load(Entity player) {
+    public void load() {
         try {
             SaveData data = (SaveData) ResourceManager.load(player.getName() + "_data");
 
@@ -84,17 +84,17 @@ public class CommandHandler {
         }
     }
 
-    public void info(Entity player) {
-        display.info(player);
+    public void info() {
+        display.info();
     }
 
-    public void goToShop(Entity player) {
+    public void goToShop() {
         display.goToShop();
         player.setLocation("shop");
         shop.loop();
     }
 
-    public void goToWild(Entity player) {
+    public void goToWild() {
         if (player.getLocation().equalsIgnoreCase("wild")) {
             display.alreadyInWild();
         } else {
@@ -103,11 +103,11 @@ public class CommandHandler {
         }
     }
 
-    public void goToInn(Entity player) {
+    public void goToInn() {
         inn.loop(player);
     }
 
-    public void goToTown(Entity player) {
+    public void goToTown() {
         if (player.getLocation().equalsIgnoreCase("town")) {
             display.alreadyInTown();
         } else {
@@ -117,7 +117,7 @@ public class CommandHandler {
         }
     }
 
-    public void battle(Entity player) {
+    public void battle() {
         if (player.getLocation().equalsIgnoreCase("wild")) {
             Battle start = new Battle(player, computer);
             player.setInCombat(true);
@@ -129,19 +129,19 @@ public class CommandHandler {
         }
     }
 
-    public void punch(Entity enemy, Entity self) {
+    public void punch() {
         skills.slash();
     }
 
-    public void kick(Entity enemy, Entity self) {
+    public void kick() {
         skills.stab();
     }
 
-    public void heal(Entity enemy, Entity self) {
+    public void heal() {
         skills.heal();
     }
 
-    public void flea(Entity enemy, Entity self) {
+    public void flea() {
         skills.flea();
     }
 }
