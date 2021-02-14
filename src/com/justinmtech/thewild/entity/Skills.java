@@ -9,19 +9,19 @@ public class Skills {
         this.enemy = enemy;
     }
 
-    public void slash() {
+    public void slash(Entity enemy) {
         double afterAttackHP = enemy.getHp() - ((((getRandomNumber(1, 2) + weaponDamage()) * levelMultiplier())) / armorRating());
         enemy.setHp(afterAttackHP);
         enemy.isAlive(enemy);
     }
 
-    public void stab() {
+    public void stab(Entity enemy) {
         double afterAttackHP = enemy.getHp() - ((((getRandomNumber(0, 3) + weaponDamage()) * levelMultiplier())) / armorRating());
         enemy.setHp(afterAttackHP);
         enemy.isAlive(enemy);
     }
 
-    public void heal() {
+    public void heal(Entity self) {
         double afterHealHP = self.getHp() + (getRandomNumber(0, 1) * levelMultiplier());
         self.setHp(afterHealHP);
         self.isAlive(self);
@@ -50,14 +50,14 @@ public class Skills {
         return randomNumber;
     }
 
-    public void doRandomSkill() {
+    public void doRandomSkill(Entity enemy, Entity self) {
         int number = getRandomNumber(0, 10);
         if (number > 2) {
-            slash();
+            slash(enemy);
         } else if (number < 6) {
-            stab();
+            stab(enemy);
         } else {
-            heal();
+            heal(self);
         }
     }
 

@@ -15,34 +15,36 @@ public class Battle {
     private Skills skills;
 
     public Battle(Entity player, Entity computer) {
+        this.player = player;
+        this.computer = computer;
         this.command = new CommandParser(player, computer);
         this.commandHandler = new CommandHandler(player, computer);
-        this.display = new Display(player, computer);
-        this.skills = new Skills(player, computer);
+        this.display = new Display();
     }
 
     public void combatLoop() {
-        computer = new Entity(pickFoe(), setLevel(player));
+        computer = new Entity(pickFoe(), setLevel(), true);
         pickLoadout(computer);
         computer.setInCombat(true);
         player.setInCombat(true);
 
-        display.newBattle();
+        display.newBattle(computer);
 
-        while (!isBattleOver(player, computer)) {
+        while (!isBattleOver()) {
+            skills = new Skills(player, computer);
             command.parseCombatCommands();
             skills.doRandomSkill();
-            if (!isBattleOver(player, computer)) {
-                display.combatOutput();
+            if (!isBattleOver()) {
+                display.combatOutput(player, computer);
             } else {
                 if (player.isAlive()) {
                     player.setCoins(player.getCoins() + getRandomNumber(computer.getLevel(), player.getBattles() * 4));
                     player.setXp(player.getXp() + getRandomNumber(computer.getLevel() * 25, computer.getLevel() * 100));
-                    display.combatOutcome();
+                    display.combatOutcome(player, computer);
                     player.calculateLevel(player);
                     player.setBattles(player.getBattles() + 1);
                 } else {
-                    display.combatOutcome();
+                    display.combatOutcome(player, computer);
                     player.setCoins(0);
                     player.setLocation("town");
                     player.setInventory(new String[]{"Air", "Air", "Air", "Air"});
@@ -54,7 +56,7 @@ public class Battle {
         }
     }
 
-    public boolean isBattleOver(Entity player, Entity computer) {
+    public boolean isBattleOver() {
         boolean isBattleOver = (!player.isAlive() || !computer.isAlive() || !player.isInCombat());
         return isBattleOver;
     }
@@ -85,7 +87,7 @@ public class Battle {
         }
     }
 
-    public short setLevel(Entity player) {
+    public short setLevel() {
         short level;
         if (player.getLevel() > 2) {
             level = (short) getRandomNumber(player.getLevel() - 1, player.getLevel() + 2);
@@ -96,10 +98,5 @@ public class Battle {
     private int getRandomNumber(int min, int max) {
         int randomNumber = (int)(Math.random() * ((max - min) + 1)) + min;
         return randomNumber;
-    }
-
-    public int battleProgression(int battles) {
-        int battleProgression = battles / 1;
-        return battles;
     }
 }

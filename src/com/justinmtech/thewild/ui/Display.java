@@ -3,21 +3,14 @@ package com.justinmtech.thewild.ui;
 import com.justinmtech.thewild.entity.Entity;
 
 public class Display {
-    private Entity player;
-    private Entity computer;
 
-    public Display(Entity player, Entity computer) {
-        this.player = player;
-        this.computer = computer;
-    }
-
-    public void combatOutput() {
+    public void combatOutput(Entity player, Entity computer) {
         line();
         System.out.println("Your HP: " + (int)player.getHp() + "/" + player.getMaxHP() + " || " + computer.getName() + " HP: " + (int)computer.getHp() + "/" + computer.getMaxHP());
         line();
     }
 
-    public void combatOutcome() {
+    public void combatOutcome(Entity player, Entity computer) {
         if (player.isAlive() && player.isInCombat()) {
             line();
             System.out.println("You killed the " + computer.getName());
@@ -37,7 +30,7 @@ public class Display {
         }
     }
 
-    public void newBattle() {
+    public void newBattle(Entity computer) {
         line();
         System.out.println("You are now in battle with a " + computer.getName() + " (Lvl " + computer.getLevel() + ")");
         line();
@@ -78,7 +71,7 @@ public class Display {
         System.out.println("> quit - quit the game");
     }
 
-    public void info() {
+    public void info(Entity player) {
         line();
         System.out.println("Player Info: " + player.getName());
         line();
@@ -87,6 +80,7 @@ public class Display {
         System.out.println("Level: " + player.getLevel());
         System.out.println("XP: " + player.getXp());
         System.out.println("Location: " + player.getLocation());
+        System.out.println("In Combat: " + player.isInCombat());
         System.out.print("Inventory: ");
         int i;
         for (i = 0; i < player.getInventory().length; i++) {

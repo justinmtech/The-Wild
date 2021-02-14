@@ -13,9 +13,9 @@ public class CommandParser {
 
 
     public CommandParser(Entity player, Entity computer) {
+        scanner = new Scanner(System.in);
         this.player = player;
         this.computer = computer;
-        scanner = new Scanner(System.in);
         this.command = new CommandHandler(player, computer);
     }
 
@@ -35,7 +35,6 @@ public class CommandParser {
             command.goToTown();
         } else if (input.equalsIgnoreCase("battle")) {
             command.battle();
-            player.setAlive(true);
             command.info();
         } else if (input.equalsIgnoreCase("quit")) {
         } else if (input.equalsIgnoreCase("save")) {

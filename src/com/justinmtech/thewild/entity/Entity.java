@@ -1,6 +1,52 @@
 package com.justinmtech.thewild.entity;
 
 public class Entity {
+    private int xp;
+    private int level;
+    private int maxHP;
+    private double hp;
+    private boolean isAlive;
+    private boolean inCombat;
+    private boolean isComputer;
+    private String name;
+    private String location = "town";
+    private int coins;
+    private String[] inventory;
+    private int battles = 0;
+
+    public Entity(String name) {
+        this.name = name;
+        isAlive = true;
+        inCombat = false;
+        isComputer = false;
+        inventory = new String[]{"Air", "Air", "Air", "Air"};
+        battles = 0;
+        this.level = 1;
+        this.hp = 10 + (level * 10);
+        this.maxHP = 10 + (level * 10);
+    }
+
+    public Entity(boolean computer) {
+        isAlive = true;
+        inCombat = false;
+        isComputer = computer;
+        inventory = new String[]{"Air", "Air", "Air", "Air"};
+        battles = 0;
+        this.level = 1;
+        this.hp = 10 + (level * 10);
+        this.maxHP = 10 + (level * 10);
+    }
+
+    public Entity(String name, int level, boolean computer) {
+        this.isAlive = true;
+        this.isComputer = computer;
+        this.name = name;
+        this.level = level;
+        this.hp = 10 + (level * 10);
+        this.level = 1;
+        this.maxHP = 10 + (level * 10);
+    }
+
     public int getXp() {
         return xp;
     }
@@ -97,33 +143,6 @@ public class Entity {
         this.battles = battles;
     }
 
-    private int xp;
-    private int level;
-    private int maxHP;
-    private double hp;
-    private boolean isAlive;
-    private boolean inCombat;
-    private boolean isComputer;
-    private String name;
-    private String location = "town";
-    private int coins;
-    private String[] inventory;
-    private int battles = 0;
-
-
-    public Entity(String name) {
-        this.name = name;
-        isAlive = true;
-        inCombat = false;
-        isComputer = false;
-        inventory = new String[]{"Air", "Air", "Air", "Air"};
-        battles = 0;
-    }
-
-    public Entity(String name, int level) {
-        this.name = name;
-        this.level = level;
-    }
 
     public boolean isAlive(Entity entity) {
         boolean alive = entity.hp > 0;

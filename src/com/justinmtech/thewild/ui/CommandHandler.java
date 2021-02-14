@@ -16,12 +16,13 @@ public class CommandHandler {
     private Skills skills;
     private Shop shop;
     private Inn inn;
+    private Battle battle;
     private ResourceManager resourceManager;
 
     public CommandHandler(Entity player, Entity computer) {
         this.player = player;
         this.computer = computer;
-        this.display = new Display(player, computer);
+        this.display = new Display();
         this.skills = new Skills(player, computer);
         this.shop = new Shop(player);
         this.inn = new Inn();
@@ -85,7 +86,7 @@ public class CommandHandler {
     }
 
     public void info() {
-        display.info();
+        display.info(player);
     }
 
     public void goToShop() {
@@ -119,10 +120,10 @@ public class CommandHandler {
 
     public void battle() {
         if (player.getLocation().equalsIgnoreCase("wild")) {
-            Battle start = new Battle(player, computer);
+            battle = new Battle(player, computer);
             player.setInCombat(true);
             display.searchBattle();
-            start.combatLoop();
+            battle.combatLoop();
 
         } else {
             display.noEnemiesNear();

@@ -16,8 +16,7 @@ public class Game {
 
     public Game() {
         scanner = new Scanner(System.in);
-        this.commandParser = new CommandParser(player, computer);
-        this.commandHandler = new CommandHandler(player, computer);
+        computer = new Entity(true);
         gameRunning = true;
     }
 
@@ -25,6 +24,10 @@ public class Game {
         System.out.println("> Guard: Welcome to Izengar. Who are you?");
         String name = scanner.next();
         player = new Entity(name);
+        player.setLevel(5);
+        player.setCoins(100);
+        commandParser = new CommandParser(player, computer);
+        commandHandler = new CommandHandler(player, computer);
         commandHandler.load();
 
         System.out.println("> Guard: Nice to meet ya' " + player.getName() + ".");
