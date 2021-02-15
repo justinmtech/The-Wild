@@ -9,40 +9,38 @@ public class Skills {
         this.enemy = enemy;
     }
 
-    public void slash(Entity enemy) {
-        double afterAttackHP = enemy.getHp() - ((((getRandomNumber(1, 2) + weaponDamage()) * levelMultiplier())) / armorRating());
+    public Entity slash() {
+        double afterAttackHP = enemy.getHp() - (((getRandomNumber(1, 2) + weaponDamage()) * levelMultiplier()) / armorRating());
         enemy.setHp(afterAttackHP);
-        enemy.isAlive(enemy);
+        return enemy;
     }
 
-    public void stab(Entity enemy) {
-        double afterAttackHP = enemy.getHp() - ((((getRandomNumber(0, 3) + weaponDamage()) * levelMultiplier())) / armorRating());
+    public Entity stab() {
+        double afterAttackHP = enemy.getHp() - (((getRandomNumber(0, 3) + weaponDamage()) * levelMultiplier()) / armorRating());
         enemy.setHp(afterAttackHP);
-        enemy.isAlive(enemy);
+        return enemy;
     }
 
-    public void heal(Entity self) {
+    public Entity heal() {
         double afterHealHP = self.getHp() + (getRandomNumber(0, 1) * levelMultiplier());
         self.setHp(afterHealHP);
-        self.isAlive(self);
+        return self;
     }
 
-    public void flea() {
+    public Entity flea() {
         int chance = getRandomNumber(0, 2);
         double afterFleaHP;
         if (chance == 0) {
             afterFleaHP = self.getHp() / 2;
             self.setHp(afterFleaHP);
-            self.isAlive(self);
             self.setInCombat(false);
         } else if (chance == 1) {
             self.setInCombat(false);
 
         } else {
             System.out.println("You were not able to flea the battle..");
-            self.isAlive(self);
         }
-
+        return self;
     }
 
     private int getRandomNumber(int min, int max) {
@@ -50,14 +48,14 @@ public class Skills {
         return randomNumber;
     }
 
-    public void doRandomSkill(Entity enemy, Entity self) {
+    public Entity doRandomSkill() {
         int number = getRandomNumber(0, 10);
         if (number > 2) {
-            slash(enemy);
+            return slash();
         } else if (number < 6) {
-            stab(enemy);
+            return stab();
         } else {
-            heal(self);
+            return heal();
         }
     }
 
@@ -80,10 +78,10 @@ public class Skills {
         int damage = 1;
         for (i = 0; i < self.getInventory().length; i++) {
 
-            if (self.getInventory()[i].equalsIgnoreCase("Short Sword")) {
+            if (self.getInventory()[i].equalsIgnoreCase("Short_Sword")) {
                 damage = 2;
                 break;
-            } else if (self.getInventory()[i].equalsIgnoreCase("Long Sword")) {
+            } else if (self.getInventory()[i].equalsIgnoreCase("Long_Sword")) {
                 damage = 3;
                 break;
             } else {
@@ -96,12 +94,12 @@ public class Skills {
     public double armorRating() {
         int i;
         int rating = 0;
-        for (i = 0; i < self.getInventory().length; i++) {
+        for (i = 0; i < enemy.getInventory().length; i++) {
 
-            if (self.getInventory()[i].equalsIgnoreCase("Leather Armor")) {
+            if (enemy.getInventory()[i].equalsIgnoreCase("Leather_Armor")) {
                 rating = 2;
                 break;
-            } else if (self.getInventory()[i].equalsIgnoreCase("Iron Armor")) {
+            } else if (enemy.getInventory()[i].equalsIgnoreCase("Iron_Armor")) {
                 rating = 3;
                 break;
             } else {

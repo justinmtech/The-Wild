@@ -14,34 +14,43 @@ public class Battle {
     private Entity computer;
     private Skills skills;
 
-    public Battle(Entity player, Entity computer) {
+    public Battle(Entity player) {
         this.player = player;
-        this.computer = computer;
+        player.setInCombat(true);
+        this.computer = new Entity(pickFoe(), setComputerLevel(), true);
+        setComputerLoadout();
         this.command = new CommandParser(player, computer);
         this.commandHandler = new CommandHandler(player, computer);
         this.display = new Display();
     }
 
     public void combatLoop() {
-        computer = new Entity(pickFoe(), setLevel(), true);
-        pickLoadout(computer);
-        computer.setInCombat(true);
-        player.setInCombat(true);
-
         display.newBattle(computer);
+        Entity entity;
 
-        while (!isBattleOver()) {
+        while (battleIsNotOver()) {
             skills = new Skills(player, computer);
-            command.parseCombatCommands();
-            skills.doRandomSkill();
-            if (!isBattleOver()) {
+            entity = command.parseCombatCommands(player, computer);
+            if (entity.isComputer()) {
+                computer = entity;
+            } else {
+                player = entity;
+            }
+
+            skills = new Skills(computer, player);
+            entity = skills.doRandomSkill();
+            if (entity.isComputer()) {
+                computer = entity;
+            } else {
+                player = entity;
+            }
+            if (battleIsNotOver()) {
                 display.combatOutput(player, computer);
             } else {
                 if (player.isAlive()) {
+                    display.combatOutcome(player, computer);
                     player.setCoins(player.getCoins() + getRandomNumber(computer.getLevel(), player.getBattles() * 4));
                     player.setXp(player.getXp() + getRandomNumber(computer.getLevel() * 25, computer.getLevel() * 100));
-                    display.combatOutcome(player, computer);
-                    player.calculateLevel(player);
                     player.setBattles(player.getBattles() + 1);
                 } else {
                     display.combatOutcome(player, computer);
@@ -56,38 +65,36 @@ public class Battle {
         }
     }
 
-    public boolean isBattleOver() {
-        boolean isBattleOver = (!player.isAlive() || !computer.isAlive() || !player.isInCombat());
+    public boolean battleIsNotOver() {
+        boolean isBattleOver = (player.isAlive() && computer.isAlive());
         return isBattleOver;
     }
 
     public String pickFoe() {
         int randomNumber = getRandomNumber(0, 10);
-        String foeName;
         if (randomNumber < 5) {
-            foeName = "Wolf";
+            return "Wolf";
         } else {
-            foeName = "Bandit";
+            return "Bandit";
         }
-        return foeName;
     }
 
-    public void pickLoadout(Entity entity) {
+    public void setComputerLoadout() {
         int randomNumber = getRandomNumber(0 , 10);
         if (randomNumber > 4 && randomNumber < 6) {
-            entity.setInventory(new String[]{"Short Sword"});
+            computer.setInventory(new String[]{"Short Sword"});
         } else if (randomNumber < 4 && randomNumber > 2) {
-            entity.setInventory(new String[]{"Long Sword"});
+            computer.setInventory(new String[]{"Long Sword"});
         } else if (randomNumber < 2) {
-            entity.setInventory(new String[]{"Long Sword"});
-            entity.setInventory(new String[]{"Long Sword", "Iron Armor"});
+            computer.setInventory(new String[]{"Long Sword"});
+            computer.setInventory(new String[]{"Long Sword", "Iron Armor"});
 
         } else {
-            entity.setInventory(new String[]{"Air", "Air"});
+            computer.setInventory(new String[]{"Air", "Air"});
         }
     }
 
-    public short setLevel() {
+    public short setComputerLevel() {
         short level;
         if (player.getLevel() > 2) {
             level = (short) getRandomNumber(player.getLevel() - 1, player.getLevel() + 2);

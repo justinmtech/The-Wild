@@ -14,36 +14,39 @@ public class Entity {
     private String[] inventory;
     private int battles = 0;
 
-    public Entity(String name) {
+    public Entity(String name, int level, int coins) {
         this.name = name;
         isAlive = true;
         inCombat = false;
         isComputer = false;
         inventory = new String[]{"Air", "Air", "Air", "Air"};
         battles = 0;
-        this.level = 1;
+        this.level = level;
+        setXPFromLevel();
         this.hp = 10 + (level * 10);
         this.maxHP = 10 + (level * 10);
+        this.coins = coins;
     }
 
     public Entity(boolean computer) {
+        isComputer = computer;
         isAlive = true;
         inCombat = false;
-        isComputer = computer;
         inventory = new String[]{"Air", "Air", "Air", "Air"};
         battles = 0;
         this.level = 1;
+        setXPFromLevel();
         this.hp = 10 + (level * 10);
         this.maxHP = 10 + (level * 10);
     }
 
     public Entity(String name, int level, boolean computer) {
-        this.isAlive = true;
-        this.isComputer = computer;
         this.name = name;
         this.level = level;
+        this.isComputer = computer;
+        this.isAlive = true;
+        setXPFromLevel();
         this.hp = 10 + (level * 10);
-        this.level = 1;
         this.maxHP = 10 + (level * 10);
     }
 
@@ -53,6 +56,12 @@ public class Entity {
 
     public void setXp(int xp) {
         this.xp = xp;
+        setLevelFromXP();
+        updateMaxHP();
+    }
+
+    private void updateMaxHP() {
+        maxHP = 10 + (level * 10);
     }
 
     public int getLevel() {
@@ -61,6 +70,7 @@ public class Entity {
 
     public void setLevel(int level) {
         this.level = level;
+        setXPFromLevel();
     }
 
     public int getMaxHP() {
@@ -77,10 +87,11 @@ public class Entity {
 
     public void setHp(double hp) {
         this.hp = hp;
+        isAlive = isAlive();
     }
 
     public boolean isAlive() {
-        return isAlive;
+        return getHp() > 0;
     }
 
     public void setAlive(boolean alive) {
@@ -143,32 +154,18 @@ public class Entity {
         this.battles = battles;
     }
 
-
-    public boolean isAlive(Entity entity) {
-        boolean alive = entity.hp > 0;
-        this.isAlive = alive;
-        return alive;
-    }
-
-    //Not sure what this is for yet
-    //It seems to be for setting the hp of a player after a battle, but I don't know why both are set
-    public void setHP(Entity entity) {
-        if (entity.isComputer) {
-            entity.maxHP = entity.level * 15;
-            entity.hp = entity.maxHP;
-        } else {
-        entity.maxHP = entity.level * 20;
-        if (!entity.inCombat)
-        entity.hp = entity.maxHP;
-        }
-    }
-
-    public void calculateLevel(Entity entity) {
-        int level = (entity.xp / 100);
+    private void setLevelFromXP() {
+        level = xp / 100;
         if (level < 1) {
             level = 1;
         }
-        entity.level = level;
+    }
+
+    private void setXPFromLevel() {
+        xp = level * 100;
+        if (level == 1) {
+            xp = 0;
+        }
     }
 
 }

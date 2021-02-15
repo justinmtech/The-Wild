@@ -16,7 +16,7 @@ public class CommandParser {
         scanner = new Scanner(System.in);
         this.player = player;
         this.computer = computer;
-        this.command = new CommandHandler(player, computer);
+        this.command = new CommandHandler(this.player, this.computer);
     }
 
     public void parseCommand() {
@@ -46,22 +46,31 @@ public class CommandParser {
         }
     }
 
-    public void parseCombatCommands() {
+    public Entity parseCombatCommands(Entity self, Entity enemy) {
         input = scanner.next();
         if (input.equalsIgnoreCase("slash")) {
-            command.punch();
+            enemy = command.punch();
+            return enemy;
         } else if (input.equalsIgnoreCase("stab")) {
-            command.kick();
+            enemy = command.kick();
+            return enemy;
         } else if (input.equalsIgnoreCase("heal")) {
-            command.heal();
+            self = command.heal();
+            return self;
         } else if (input.equalsIgnoreCase("flea")) {
-            command.flea();
+            self = command.flea();
+            return self;
         } else if (input.equalsIgnoreCase("quit")) {
         } else if (input.equalsIgnoreCase("info")) {
             command.info();
         } else {
             System.out.println("Available Combat Commands:");
             System.out.println("> slash, stab, heal, flea");
+        }
+        if (self == null) {
+            return enemy;
+        } else {
+            return self;
         }
     }
 }

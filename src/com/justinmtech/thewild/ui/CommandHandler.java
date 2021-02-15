@@ -120,8 +120,8 @@ public class CommandHandler {
 
     public void battle() {
         if (player.getLocation().equalsIgnoreCase("wild")) {
-            battle = new Battle(player, computer);
-            player.setInCombat(true);
+            battle = new Battle(player);
+            System.out.println(player.getLevel());
             display.searchBattle();
             battle.combatLoop();
 
@@ -130,19 +130,19 @@ public class CommandHandler {
         }
     }
 
-    public void punch() {
-        skills.slash();
+    public Entity punch() {
+        return skills.slash();
     }
 
-    public void kick() {
-        skills.stab();
+    public Entity kick() {
+        return skills.stab();
     }
 
-    public void heal() {
-        skills.heal();
+    public Entity heal() {
+        return skills.heal();
     }
 
-    public void flea() {
-        skills.flea();
+    public Entity flea() {
+        return skills.flea();
     }
 }

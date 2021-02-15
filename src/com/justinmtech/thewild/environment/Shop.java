@@ -113,8 +113,6 @@ public class Shop {
         for (i = 0; i < items.length; i++) {
             if (input.equalsIgnoreCase(items[i])) {
                 inStock = true;
-            } else {
-                inStock = false;
             }
         }
         return inStock;

@@ -80,7 +80,6 @@ public class Display {
         System.out.println("Level: " + player.getLevel());
         System.out.println("XP: " + player.getXp());
         System.out.println("Location: " + player.getLocation());
-        System.out.println("In Combat: " + player.isInCombat());
         System.out.print("Inventory: ");
         int i;
         for (i = 0; i < player.getInventory().length; i++) {
