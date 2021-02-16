@@ -1,8 +1,10 @@
 package com.justinmtech.thewild.commands;
 
 import com.justinmtech.thewild.entity.Entity;
-import com.justinmtech.thewild.ui.Display;
+import com.justinmtech.thewild.user_interface.Display;
 
+//The town command.
+//Takes the player to town if they meet the requirements!
 public class Town {
     private Entity player;
     private Display display;

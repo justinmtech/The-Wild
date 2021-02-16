@@ -1,37 +1,38 @@
 package com.justinmtech.thewild;
 
 import com.justinmtech.thewild.entity.Entity;
-import com.justinmtech.thewild.ui.CommandParser;
-import com.justinmtech.thewild.ui.Display;
+import com.justinmtech.thewild.user_interface.CommandParser;
+import com.justinmtech.thewild.user_interface.Display;
 
 import java.util.Scanner;
 
+//Start the game!
 public class Game {
     private final Entity player;
-    private final Entity computer;
     private final Scanner scanner;
-    private CommandParser commandParser;
-    private Display display;
-    private boolean gameRunning;
+    private final Display display;
+    public static boolean gameRunning = true;
 
     public Game() {
         scanner = new Scanner(System.in);
-        computer = new Entity(true);
         player = new Entity("Player", 5, 100);
         this.display = new Display();
-        gameRunning = true;
     }
 
     public void game() {
         display.welcome();
         String name = scanner.next();
         player.setName(name);
-        commandParser = new CommandParser(player, computer);
+        CommandParser commandParser = new CommandParser(player);
 
         display.greeting(player);
         display.farewell();
         while (gameRunning) {
             commandParser.parseCommand();
         }
+    }
+
+    public static void quitGame() {
+        gameRunning = false;
     }
 }

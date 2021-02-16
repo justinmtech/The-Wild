@@ -1,12 +1,18 @@
-package com.justinmtech.thewild.environment;
+package com.justinmtech.thewild.commands;
 
 import com.justinmtech.thewild.entity.Entity;
-import com.justinmtech.thewild.ui.Display;
+import com.justinmtech.thewild.user_interface.Display;
 
 import java.util.Scanner;
 
+//The shop command.
 //A shop for purchasing armor and weapons.
 public class Shop {
+    private static final int SHORT_SWORD_COST = 12;
+    private static final int LONG_SWORD_COST = 56;
+    private static final int LEATHER_ARMOR_COST = 23;
+    private static final int IRON_ARMOR_COST = 72;
+
     private final Entity player;
     private Display display;
     private String input;
@@ -20,18 +26,19 @@ public class Shop {
         player.setLocation("shop");
         loop();
     }
-
+    //The player will be in the shop loop until they type 'leave'
     private void loop() {
         welcome();
         displayItems();
         talk();
         while (!quit) {
-            scanInput(player);
+            listenToPlayerCommands(player);
         }
         player.setLocation("town");
         System.out.println("*You return to town*");
     }
 
+    //Display welcome information for the shop.
     private void welcome() {
         System.out.println("> Lisa: Welcome traveller.");
         System.out.println("> Lisa: Take a look around.");
@@ -39,44 +46,46 @@ public class Shop {
         System.out.println("--------------------------------------------");
     }
 
+    //A separator for shop messages
     private void talk() {
         System.out.println("--------------------------------------------");
     }
 
+    //The items for sale in the shop.
     private void displayItems() {
         String[] items = {"Short_Sword", "Long_Sword", "Leather_Armor", "Iron_Armor"};
 
         int i;
         for (i = 0; i < items.length; i++) {
-            System.out.println(items[i] + " [" + getCost(items[i]) + " Coins] ");
+            System.out.println(items[i] + " [" + getCostFromCommand(items[i]) + " Coins] ");
         }
     }
-
-    private int getCost(String input) {
+    //The cost of the items in the shop.
+    private int getCostFromCommand(String input) {
         int cost = 0;
         if (input.equalsIgnoreCase("Short_Sword")) {
-            cost = 10;
+            cost = SHORT_SWORD_COST;
         } else if (input.equalsIgnoreCase("Long_Sword")) {
-            cost = 15;
+            cost = LONG_SWORD_COST;
         } else if (input.equalsIgnoreCase("Leather_Armor")) {
-            cost = 25;
+            cost = LEATHER_ARMOR_COST;
         } else if (input.equalsIgnoreCase("Iron_Armor")) {
-            cost = 35;
+            cost = IRON_ARMOR_COST;
         }
         return cost;
     }
-
-    private void scanInput(Entity player) {
+    //Scan the player's commands while in the shop.
+    private void listenToPlayerCommands(Entity player) {
         Scanner scanner = new Scanner(System.in);
         input = scanner.next();
         if (input.equalsIgnoreCase("leave")) {
             quit = true;
         }
-        else if (itemInStock(input)) {
-            System.out.println("Do you want to buy " + input + " for " + getCost(input) + "? Type 'yes' to confirm or 'no' to cancel.");
+        else if (isItemInStock(input)) {
+            System.out.println("Do you want to buy " + input + " for " + getCostFromCommand(input) + "? Type 'yes' to confirm or 'no' to cancel.");
             String confirmation = scanner.next();
             if (confirmation.equalsIgnoreCase("yes")) {
-                transaction(player);
+                doTransaction(player);
                 displayItems();
             } else {
                 System.out.println("Purchase cancelled..");
@@ -85,35 +94,29 @@ public class Shop {
             System.out.println("> Lisa: I don't sell that here.");
         }
     }
-
-    private void giveItem(Entity player) {
-        boolean itemGiven = false;
+    //Give a player an item if possible.
+    private void putItemInInventory(Entity player) {
         int invSize = player.getInventory().length;
         int i;
         for (i = 0; i < invSize; i++) {
             if (player.getInventory()[i].equalsIgnoreCase("Air")) {
                 player.getInventory()[i] = input;
-                itemGiven = true;
                 break;
-            }
-            if (i == invSize && itemGiven == false) {
-                System.out.println("Your inventory is full.");
             }
         }
     }
 
-    private void transaction(Entity player) {
-        if (player.getCoins() >= getCost(input)) {
-            int newBalance = player.getCoins() - getCost(input);
-            player.setCoins(newBalance);
-            giveItem(player);
-            System.out.println("You spent " + getCost(input) + " and now have " + player.getCoins() + " Coins.");
+    private void doTransaction(Entity player) {
+        if (player.getCoins() >= getCostFromCommand(input)) {
+            player.setCoins(player.getCoins() - getCostFromCommand(input));
+            putItemInInventory(player);
+            System.out.println("You spent " + getCostFromCommand(input) + " and now have " + player.getCoins() + " Coins.");
         } else {
             System.out.println("Sorry, you don't have enough money for this!");
         }
     }
 
-    private boolean itemInStock(String input) {
+    private boolean isItemInStock(String input) {
         boolean inStock = false;
         int i;
         String[] items = {"Short_Sword", "Long_Sword", "Leather_Armor", "Iron_Armor"};

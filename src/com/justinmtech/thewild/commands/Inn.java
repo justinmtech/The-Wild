@@ -1,38 +1,43 @@
-package com.justinmtech.thewild.environment;
+package com.justinmtech.thewild.commands;
 
 import com.justinmtech.thewild.entity.Entity;
 
 import java.util.Scanner;
 
-//The player's retreat, located in the town. Staying in the Inn heals the player for a cost.
+//The Inn command, usable while in town.
+//Using the Inn heals the player for a cost.
 public class Inn {
     private final Entity player;
-    private final static int COST = 2;
+    //The cost to stay in the Inn
+    private final static int COST_TO_STAY = 6;
 
     public Inn(Entity player) {
         this.player = player;
         loop();
     }
 
+    //Initiate the Inn loop until the player leaves or gets a room.
     private void loop() {
         welcome();
         scanInput(player);
     }
 
+    //Display a welcome message.
     private void welcome() {
         System.out.println("> Gunthor: Welcome traveller.");
         System.out.println("> Gunthor: Would you like a room? It's 2 Coins for a night.");
     }
 
+    //Listen to the player's commands while visiting the inn.
     private void scanInput(Entity player) {
         Scanner scanner = new Scanner(System.in);
         String input = scanner.next();
-        if (input.equalsIgnoreCase("yes") && player.getCoins() >= COST) {
+        if (input.equalsIgnoreCase("yes") && player.getCoins() >= COST_TO_STAY) {
             player.resetHp();
-            player.setCoins(player.getCoins() - COST);
+            player.setCoins(player.getCoins() - COST_TO_STAY);
             System.out.println("*You feel well rested*");
             System.out.println("*You return to town*");
-        } else if (input.equalsIgnoreCase("yes") && player.getCoins() < COST) {
+        } else if (input.equalsIgnoreCase("yes") && player.getCoins() < COST_TO_STAY) {
             System.out.println("> Gunthor: You can't pay me with hugs, sorry..");
             System.out.println("*You return to town*");
         } else {

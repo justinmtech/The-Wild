@@ -1,31 +1,24 @@
-package com.justinmtech.thewild.ui;
+package com.justinmtech.thewild.user_interface;
 
 import com.justinmtech.thewild.commands.*;
 import com.justinmtech.thewild.entity.Entity;
-import com.justinmtech.thewild.entity.skills.Flea;
-import com.justinmtech.thewild.entity.skills.Heal;
-import com.justinmtech.thewild.entity.skills.Slash;
-import com.justinmtech.thewild.entity.skills.Stab;
-import com.justinmtech.thewild.environment.Battle;
-import com.justinmtech.thewild.environment.Inn;
-import com.justinmtech.thewild.environment.Shop;
+import com.justinmtech.thewild.entity.skill_logic.skills.Flea;
+import com.justinmtech.thewild.entity.skill_logic.skills.Heal;
+import com.justinmtech.thewild.entity.skill_logic.skills.Slash;
+import com.justinmtech.thewild.entity.skill_logic.skills.Stab;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
+//Listen for commands and execute them.
 public class CommandParser {
     private Entity player;
-    private Entity computer;
     private Scanner scanner;
-    //private CommandHandler command;
     private String input;
 
-
-    public CommandParser(Entity player, Entity computer) {
+    public CommandParser(Entity player) {
         scanner = new Scanner(System.in);
         this.player = player;
-        this.computer = computer;
-        //this.command = new CommandHandler(this.player, this.computer);
     }
 
     public void parseCommand() {
@@ -57,7 +50,11 @@ public class CommandParser {
     }
 
     public ArrayList<Entity> getAttackCommand(Entity attacker, Entity defender) {
+        ArrayList<Entity> entities = new ArrayList<>();
+        entities.add(attacker);
+        entities.add(defender);
         input = scanner.next();
+
         if (input.equalsIgnoreCase("slash")) {
             Slash slash = new Slash(attacker, defender);
             return slash.attack();
@@ -67,16 +64,15 @@ public class CommandParser {
         } else if (input.equalsIgnoreCase("heal")) {
             Heal heal = new Heal(attacker, defender);
             return heal.doHeal();
-
         } else if (input.equalsIgnoreCase("flea")) {
             Flea flea = new Flea(attacker, defender);
             return flea.tryFlea();
+        } else if (input.equalsIgnoreCase("quit")) {
+            System.out.println("You can't quit while in combat!");
+            return entities;
         } else {
-            System.out.println("Available Combat Commands:");
+            System.out.println("Unknown command:");
             System.out.println("> slash, stab, heal, flea");
-            ArrayList<Entity> entities = new ArrayList<>();
-            entities.add(attacker);
-            entities.add(defender);
             return entities;
         }
     }

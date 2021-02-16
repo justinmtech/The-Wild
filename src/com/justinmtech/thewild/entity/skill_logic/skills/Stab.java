@@ -1,22 +1,24 @@
-package com.justinmtech.thewild.entity.skills;
+package com.justinmtech.thewild.entity.skill_logic.skills;
 
 import com.justinmtech.thewild.entity.Entity;
+import com.justinmtech.thewild.entity.skill_logic.CombatSkillsUtil;
+import com.justinmtech.thewild.utilities.RandomNumberGenerator;
 
 import java.util.ArrayList;
 
-public class Stab extends CombatSkill {
+public class Stab extends CombatSkillsUtil {
     private Entity attacker;
     private Entity defender;
     public Stab(Entity attacker, Entity defender) {
         this.attacker = attacker;
         this.defender = defender;
         setBaseMultiplier(0);
-        setMaxMultiplier(3);
+        setMaxMultiplier(8);
     }
 
     public ArrayList<Entity> attack() {
         ArrayList<Entity> entities = new ArrayList<>();
-        defender.removeHP((getRandomNumber(getBaseMultiplier(), getMaxMultiplier()) + getWeaponDamageMultiplier(attacker)) * levelMultiplier(attacker) / getArmorRatingMultiplier(defender));
+        defender.removeHP((RandomNumberGenerator.generate(getBaseMultiplier(), getMaxMultiplier()) + getWeaponDamageMultiplier(attacker)) * levelMultiplier(attacker) / getArmorRatingMultiplier(defender));
         entities.add(attacker);
         entities.add(defender);
         return entities;

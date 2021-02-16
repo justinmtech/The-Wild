@@ -1,27 +1,28 @@
-package com.justinmtech.thewild.entity.skills;
+package com.justinmtech.thewild.entity.skill_logic.skills;
 
 import com.justinmtech.thewild.entity.Entity;
-import com.justinmtech.thewild.ui.Display;
+import com.justinmtech.thewild.entity.skill_logic.CombatSkillsUtil;
+import com.justinmtech.thewild.utilities.RandomNumberGenerator;
 
 import java.util.ArrayList;
 
-public class Flea extends CombatSkill {
+//A skill that allows the user to try to leave a battle mid-fight.
+public class Flea extends CombatSkillsUtil {
     private Entity attacker;
     private Entity defender;
-    private Display display;
     private ArrayList<Entity> entities;
+    private int chance;
 
     public Flea(Entity attacker, Entity defender) {
+        chance = RandomNumberGenerator.generate(1, 3);
         this.attacker = attacker;
         this.defender = defender;
-        this.display = new Display();
         this.entities = new ArrayList<>();
         tryFlea();
     }
 
     public ArrayList<Entity> tryFlea() {
-        int chance = getRandomNumber(0, 2);
-        if (chance == 2) {
+        if (chance == 3) {
             attacker.setInCombat(false);
             attacker.removeHP(defender.getLevel() * 4);
         }

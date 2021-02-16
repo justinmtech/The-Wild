@@ -1,8 +1,10 @@
 package com.justinmtech.thewild.commands;
 
 import com.justinmtech.thewild.entity.Entity;
-import com.justinmtech.thewild.ui.Display;
+import com.justinmtech.thewild.user_interface.Display;
 
+//The info command.
+//Info displays useful information about your player.
 public class Info {
     private Entity player;
     private Display display;

@@ -1,11 +1,15 @@
-package com.justinmtech.thewild.entity.skills;
+package com.justinmtech.thewild.entity.skill_logic;
 
 import com.justinmtech.thewild.entity.Entity;
+import com.justinmtech.thewild.entity.skill_logic.skills.Heal;
+import com.justinmtech.thewild.entity.skill_logic.skills.Slash;
+import com.justinmtech.thewild.entity.skill_logic.skills.Stab;
+import com.justinmtech.thewild.utilities.RandomNumberGenerator;
 
 import java.util.ArrayList;
 
 //The base for all of the Skills.
-public class CombatSkill {
+public class CombatSkillsUtil {
     private final static double BASE_MULTIPLIER = 1;
     private final static double MEDIUM_MULTIPLIER = 2;
     private final static double HIGH_MULTIPLIER = 3;
@@ -14,16 +18,12 @@ public class CombatSkill {
     private int baseMultiplier;
     private int maxMultiplier;
 
-    int getRandomNumber(int min, int max) {
-        return (int) (Math.random() * ((max - min) + 1)) + min;
-    }
-
     public ArrayList<Entity> computerDoRandomSkill(Entity attacker, Entity defender) {
-        int number = getRandomNumber(0, 10);
-        if (number > 2) {
+        int number = RandomNumberGenerator.generate(0, 10);
+        if (number > 0 && number <= 4) {
             Slash slash = new Slash(attacker, defender);
             return slash.attack();
-        } else if (number < 6) {
+        } else if (number >= 5 && number <= 8) {
             Stab stab = new Stab(attacker, defender);
             return stab.attack();
         } else {

@@ -1,4 +1,4 @@
-package com.justinmtech.thewild.ui;
+package com.justinmtech.thewild.user_interface;
 
 import com.justinmtech.thewild.entity.Entity;
 

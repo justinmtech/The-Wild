@@ -1,21 +1,21 @@
-package com.justinmtech.thewild.environment;
+package com.justinmtech.thewild.commands;
 
-import com.justinmtech.thewild.ui.Display;
 import com.justinmtech.thewild.entity.Entity;
-import com.justinmtech.thewild.entity.skills.CombatSkill;
-import com.justinmtech.thewild.ui.CommandParser;
+import com.justinmtech.thewild.entity.skill_logic.CombatSkillsUtil;
+import com.justinmtech.thewild.user_interface.CommandParser;
+import com.justinmtech.thewild.user_interface.Display;
 
 import java.util.ArrayList;
 
-//TODO simplify battle class as much as possible. Make it only responsible for what it should be.
-//Used for creating battles between two entities, the player and computer.
+//The battle command.
+//Used for organizing battle instances when the player issues the "battle" command in the wild.
 //This class handles all logic around the battles of entities.
 public class Battle {
     private final CommandParser command;
     private final Display display;
     private Entity player;
     private Entity computer;
-    private CombatSkill combatSkill;
+    private final CombatSkillsUtil combatSkillsUtil;
     private ArrayList<Entity> entities;
 
     public Battle(Entity player) {
@@ -23,9 +23,9 @@ public class Battle {
         player.setInCombat(true);
         this.computer = new Entity(pickFoe(), setRelativeComputerLevel(), true);
         setRandomComputerLoadout();
-        this.command = new CommandParser(player, computer);
+        this.command = new CommandParser(player);
         this.display = new Display();
-        combatSkill = new CombatSkill();
+        combatSkillsUtil = new CombatSkillsUtil();
         display.newBattle(computer);
         combatLoop();
     }
@@ -35,7 +35,7 @@ public class Battle {
         while (battleIsNotOver()) {
             entities = command.getAttackCommand(player, computer);
             updateEntities("player");
-            entities = combatSkill.computerDoRandomSkill(computer, player);
+            entities = combatSkillsUtil.computerDoRandomSkill(computer, player);
             updateEntities("computer");
             if (battleIsNotOver()) display.combatOutput(player, computer);
         }
@@ -49,9 +49,11 @@ public class Battle {
             case "player":
                 this.player = entities.get(0);
                 this.computer = entities.get(1);
+                break;
             case "computer":
                 this.computer = entities.get(0);
-                this.player = entities.get(0);
+                this.player = entities.get(1);
+                break;
         }
     }
 
