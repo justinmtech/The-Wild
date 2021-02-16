@@ -2,36 +2,34 @@ package com.justinmtech.thewild;
 
 import com.justinmtech.thewild.entity.Entity;
 import com.justinmtech.thewild.ui.CommandParser;
-import com.justinmtech.thewild.ui.CommandHandler;
+import com.justinmtech.thewild.ui.Display;
 
 import java.util.Scanner;
 
 public class Game {
-    private Entity player;
-    private Entity computer;
-    private Scanner scanner;
+    private final Entity player;
+    private final Entity computer;
+    private final Scanner scanner;
     private CommandParser commandParser;
-    private CommandHandler commandHandler;
+    private Display display;
     private boolean gameRunning;
 
     public Game() {
         scanner = new Scanner(System.in);
         computer = new Entity(true);
+        player = new Entity("Player", 5, 100);
+        this.display = new Display();
         gameRunning = true;
     }
 
     public void game() {
-        System.out.println("> Guard: Welcome to Izengar. Who are you?");
+        display.welcome();
         String name = scanner.next();
-        player = new Entity(name, 5, 100);
-        System.out.println(player.getLevel());
+        player.setName(name);
         commandParser = new CommandParser(player, computer);
-        commandHandler = new CommandHandler(player, computer);
-        commandHandler.load();
 
-        System.out.println("> Guard: Nice to meet ya' " + player.getName() + ".");
-        System.out.println("> Guard: Use 'wild' to go adventure in the wild or 'help' for a list of commands.");
-
+        display.greeting(player);
+        display.farewell();
         while (gameRunning) {
             commandParser.parseCommand();
         }

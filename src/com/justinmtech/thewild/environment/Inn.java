@@ -5,18 +5,24 @@ import com.justinmtech.thewild.entity.Entity;
 import java.util.Scanner;
 
 public class Inn {
+    private final Entity player;
 
-    public void loop(Entity player) {
+    public Inn(Entity player) {
+        this.player = player;
+        loop();
+    }
+
+    private void loop() {
         welcome();
         scanInput(player);
     }
 
-    public void welcome() {
+    private void welcome() {
         System.out.println("> Gunthor: Welcome traveller.");
         System.out.println("> Gunthor: Would you like a room? It's 2 Coins for a night.");
     }
 
-    public void scanInput(Entity player) {
+    private void scanInput(Entity player) {
         Scanner scanner = new Scanner(System.in);
         String input = scanner.next();
         if (input.equalsIgnoreCase("yes") && player.getCoins() >= 2) {

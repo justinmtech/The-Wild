@@ -4,29 +4,16 @@ import com.justinmtech.thewild.data.ResourceManager;
 import com.justinmtech.thewild.data.SaveData;
 import com.justinmtech.thewild.environment.Battle;
 import com.justinmtech.thewild.entity.Entity;
-import com.justinmtech.thewild.entity.Skills;
 import com.justinmtech.thewild.environment.Inn;
 import com.justinmtech.thewild.environment.Shop;
-import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
-public class CommandHandler {
-    private Entity player;
-    private Entity computer;
-    private Display display;
-    private Skills skills;
-    private Shop shop;
-    private Inn inn;
-    private Battle battle;
-    private ResourceManager resourceManager;
+/*public class CommandHandler {
+    private final Entity player;
+    private final Display display;
 
     public CommandHandler(Entity player, Entity computer) {
         this.player = player;
-        this.computer = computer;
         this.display = new Display();
-        this.skills = new Skills(player, computer);
-        this.shop = new Shop(player);
-        this.inn = new Inn();
-        this.resourceManager = new ResourceManager();
 
     }
 
@@ -91,8 +78,7 @@ public class CommandHandler {
 
     public void goToShop() {
         display.goToShop();
-        player.setLocation("shop");
-        shop.loop();
+        new Shop(player);
     }
 
     public void goToWild() {
@@ -105,7 +91,8 @@ public class CommandHandler {
     }
 
     public void goToInn() {
-        inn.loop(player);
+        display.goToInn();
+        new Inn(player);
     }
 
     public void goToTown() {
@@ -114,16 +101,14 @@ public class CommandHandler {
         } else {
             display.returnTown();
             player.setLocation("town");
-            player.setInCombat(false);
         }
     }
 
     public void battle() {
         if (player.getLocation().equalsIgnoreCase("wild")) {
-            battle = new Battle(player);
+            new Battle(player);
             System.out.println(player.getLevel());
             display.searchBattle();
-            battle.combatLoop();
 
         } else {
             display.noEnemiesNear();
@@ -145,4 +130,4 @@ public class CommandHandler {
     public Entity flea() {
         return skills.flea();
     }
-}
+}*/

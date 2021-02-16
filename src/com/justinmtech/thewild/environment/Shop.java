@@ -1,20 +1,26 @@
 package com.justinmtech.thewild.environment;
 
 import com.justinmtech.thewild.entity.Entity;
+import com.justinmtech.thewild.ui.Display;
 
 import java.util.Scanner;
 
 public class Shop {
-    private Entity player;
+    private final Entity player;
+    private Display display;
     private String input;
-    private boolean quit = false;
-    private boolean shopping = true;
+    private boolean quit;
 
     public Shop(Entity player) {
+        display = new Display();
+        display.goToShop();
+        quit = false;
         this.player = player;
+        player.setLocation("shop");
+        loop();
     }
 
-    public void loop() {
+    private void loop() {
         welcome();
         displayItems();
         talk();
@@ -25,18 +31,18 @@ public class Shop {
         System.out.println("*You return to town*");
     }
 
-    public void welcome() {
+    private void welcome() {
         System.out.println("> Lisa: Welcome traveller.");
         System.out.println("> Lisa: Take a look around.");
         System.out.println("> Lisa: Just type 'leave' to leave!");
         System.out.println("--------------------------------------------");
     }
 
-    public void talk() {
+    private void talk() {
         System.out.println("--------------------------------------------");
     }
 
-    public void displayItems() {
+    private void displayItems() {
         String[] items = {"Short_Sword", "Long_Sword", "Leather_Armor", "Iron_Armor"};
 
         int i;
@@ -45,7 +51,7 @@ public class Shop {
         }
     }
 
-    public int getCost(String input) {
+    private int getCost(String input) {
         int cost = 0;
         if (input.equalsIgnoreCase("Short_Sword")) {
             cost = 10;
@@ -59,7 +65,7 @@ public class Shop {
         return cost;
     }
 
-    public void scanInput(Entity player) {
+    private void scanInput(Entity player) {
         Scanner scanner = new Scanner(System.in);
         input = scanner.next();
         if (input.equalsIgnoreCase("leave")) {
@@ -79,7 +85,7 @@ public class Shop {
         }
     }
 
-    public void giveItem(Entity player) {
+    private void giveItem(Entity player) {
         boolean itemGiven = false;
         int invSize = player.getInventory().length;
         int i;
@@ -95,7 +101,7 @@ public class Shop {
         }
     }
 
-    public void transaction(Entity player) {
+    private void transaction(Entity player) {
         if (player.getCoins() >= getCost(input)) {
             int newBalance = player.getCoins() - getCost(input);
             player.setCoins(newBalance);
@@ -106,7 +112,7 @@ public class Shop {
         }
     }
 
-    public boolean itemInStock(String input) {
+    private boolean itemInStock(String input) {
         boolean inStock = false;
         int i;
         String[] items = {"Short_Sword", "Long_Sword", "Leather_Armor", "Iron_Armor"};

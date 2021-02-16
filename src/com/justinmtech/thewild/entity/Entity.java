@@ -31,7 +31,7 @@ public class Entity {
     public Entity(boolean computer) {
         isComputer = computer;
         isAlive = true;
-        inCombat = false;
+        inCombat = true;
         inventory = new String[]{"Air", "Air", "Air", "Air"};
         battles = 0;
         this.level = 1;
@@ -45,6 +45,8 @@ public class Entity {
         this.level = level;
         this.isComputer = computer;
         this.isAlive = true;
+        this.inCombat = true;
+        inventory = new String[]{"Air", "Air", "Air", "Air"};
         setXPFromLevel();
         this.hp = 10 + (level * 10);
         this.maxHP = 10 + (level * 10);
@@ -60,8 +62,22 @@ public class Entity {
         updateMaxHP();
     }
 
+    public void addXp(int amount) {
+        this.xp += amount;
+        setLevelFromXP();
+        updateMaxHP();
+    }
+
     private void updateMaxHP() {
         maxHP = 10 + (level * 10);
+    }
+
+    public void removeHP(double amount) {
+        hp -= amount;
+    }
+
+    public void addHP(double amount) {
+        hp += amount;
     }
 
     public int getLevel() {
@@ -88,6 +104,10 @@ public class Entity {
     public void setHp(double hp) {
         this.hp = hp;
         isAlive = isAlive();
+    }
+
+    public void resetHp() {
+        this.hp = maxHP;
     }
 
     public boolean isAlive() {
@@ -138,6 +158,10 @@ public class Entity {
         this.coins = coins;
     }
 
+    public void giveCoins(int amount) {
+        this.coins += amount;
+    }
+
     public String[] getInventory() {
         return inventory;
     }
@@ -146,12 +170,20 @@ public class Entity {
         this.inventory = inventory;
     }
 
+    public void resetInventory() {
+        this.inventory = new String[]{"Air", "Air", "Air", "Air"};
+    }
+
     public int getBattles() {
         return battles;
     }
 
     public void setBattles(int battles) {
         this.battles = battles;
+    }
+
+    public void incrementBattles() {
+        this.battles = battles++;
     }
 
     private void setLevelFromXP() {

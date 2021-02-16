@@ -1,14 +1,23 @@
 package com.justinmtech.thewild.ui;
 
+import com.justinmtech.thewild.commands.*;
 import com.justinmtech.thewild.entity.Entity;
+import com.justinmtech.thewild.entity.skills.Flea;
+import com.justinmtech.thewild.entity.skills.Heal;
+import com.justinmtech.thewild.entity.skills.Slash;
+import com.justinmtech.thewild.entity.skills.Stab;
+import com.justinmtech.thewild.environment.Battle;
+import com.justinmtech.thewild.environment.Inn;
+import com.justinmtech.thewild.environment.Shop;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CommandParser {
     private Entity player;
     private Entity computer;
     private Scanner scanner;
-    private CommandHandler command;
+    //private CommandHandler command;
     private String input;
 
 
@@ -16,61 +25,59 @@ public class CommandParser {
         scanner = new Scanner(System.in);
         this.player = player;
         this.computer = computer;
-        this.command = new CommandHandler(this.player, this.computer);
+        //this.command = new CommandHandler(this.player, this.computer);
     }
 
     public void parseCommand() {
         input = scanner.next();
         if (input.equalsIgnoreCase("help")) {
-            command.help();
+            new Help(player);
         } else if (input.equalsIgnoreCase("info")) {
-            command.info();
+            new Info(player);
         } else if (input.equalsIgnoreCase("shop")) {
-            command.goToShop();
+            new Shop(player);
         } else if (input.equalsIgnoreCase("inn")) {
-            command.goToInn();
+            new Inn(player);
         } else if (input.equalsIgnoreCase("wild")) {
-            command.goToWild();
+            new Wild(player);
         } else if (input.equalsIgnoreCase("town")) {
-            command.goToTown();
+            new Town(player);
         } else if (input.equalsIgnoreCase("battle")) {
-            command.battle();
-            command.info();
+            new Battle(player);
+            new Info(player);
         } else if (input.equalsIgnoreCase("quit")) {
+            new Quit(player);
         } else if (input.equalsIgnoreCase("save")) {
-            command.save();
+            //command.save();
         } else if (input.equalsIgnoreCase("load")) {
-            command.load();
+            //command.load();
         } else {
             System.out.println("> Command not found.. Type 'help' for help.");
         }
     }
 
-    public Entity parseCombatCommands(Entity self, Entity enemy) {
+    public ArrayList<Entity> getAttackCommand(Entity attacker, Entity defender) {
         input = scanner.next();
         if (input.equalsIgnoreCase("slash")) {
-            enemy = command.punch();
-            return enemy;
+            Slash slash = new Slash(attacker, defender);
+            return slash.attack();
         } else if (input.equalsIgnoreCase("stab")) {
-            enemy = command.kick();
-            return enemy;
+            Stab stab = new Stab(attacker, defender);
+            return stab.attack();
         } else if (input.equalsIgnoreCase("heal")) {
-            self = command.heal();
-            return self;
+            Heal heal = new Heal(attacker, defender);
+            return heal.doHeal();
+
         } else if (input.equalsIgnoreCase("flea")) {
-            self = command.flea();
-            return self;
-        } else if (input.equalsIgnoreCase("quit")) {
-        } else if (input.equalsIgnoreCase("info")) {
-            command.info();
+            Flea flea = new Flea(attacker, defender);
+            return flea.tryFlea();
         } else {
             System.out.println("Available Combat Commands:");
             System.out.println("> slash, stab, heal, flea");
-        }
-        if (self == null) {
-            return enemy;
-        } else {
-            return self;
+            ArrayList<Entity> entities = new ArrayList<>();
+            entities.add(attacker);
+            entities.add(defender);
+            return entities;
         }
     }
 }

@@ -6,7 +6,7 @@ public class Display {
 
     public void combatOutput(Entity player, Entity computer) {
         line();
-        System.out.println("Your HP: " + (int)player.getHp() + "/" + player.getMaxHP() + " || " + computer.getName() + " HP: " + (int)computer.getHp() + "/" + computer.getMaxHP());
+        System.out.println("Your HP: " + (int) player.getHp() + "/" + player.getMaxHP() + " || " + computer.getName() + " HP: " + (int) computer.getHp() + "/" + computer.getMaxHP());
         line();
     }
 
@@ -14,10 +14,9 @@ public class Display {
         if (player.isAlive() && player.isInCombat()) {
             line();
             System.out.println("You killed the " + computer.getName());
-            System.out.println("Total Coins: " + player.getCoins() + " Coins");
         } else if (player.isAlive() && !player.isInCombat()) {
             line();
-            System.out.println("You fled the battle.. " + (int)player.getHp() + "/" + player.getMaxHP() + " HP");
+            System.out.println("You fled the battle.. " + (int) player.getHp() + "/" + player.getMaxHP() + " HP");
             line();
         } else if (computer.isAlive()) {
             line();
@@ -75,7 +74,7 @@ public class Display {
         line();
         System.out.println("Player Info: " + player.getName());
         line();
-        System.out.println("HP: " + (int)player.getHp() + "/" + player.getMaxHP());
+        System.out.println("HP: " + (int) player.getHp() + "/" + player.getMaxHP());
         System.out.println("Coins: " + player.getCoins());
         System.out.println("Level: " + player.getLevel());
         System.out.println("XP: " + player.getXp());
@@ -124,5 +123,21 @@ public class Display {
 
     public void line() {
         System.out.println("----------------------------------------------");
+    }
+
+    public void welcome() {
+        System.out.println("Welcome to Izengard. Who are you?");
+    }
+
+    public void greeting(Entity player) {
+        System.out.println("> Guard: Nice to meet ya' " + player.getName() + ".");
+    }
+
+    public void farewell() {
+        System.out.println("> Guard: Use 'wild' to go adventure in the wild or 'help' for a list of commands.");
+    }
+
+    public void goToInn() {
+            System.out.println("*You walk to the local inn*");
     }
 }

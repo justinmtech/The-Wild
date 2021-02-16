@@ -2,17 +2,21 @@ package com.justinmtech.thewild.environment;
 
 import com.justinmtech.thewild.ui.Display;
 import com.justinmtech.thewild.entity.Entity;
-import com.justinmtech.thewild.entity.Skills;
-import com.justinmtech.thewild.ui.CommandHandler;
+import com.justinmtech.thewild.entity.skills.CombatSkill;
 import com.justinmtech.thewild.ui.CommandParser;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+//TODO simplify battle class as much as possible. Make it only responsible for what it should be.
+
 public class Battle {
-    private CommandParser command;
-    private CommandHandler commandHandler;
-    private Display display;
+    private final CommandParser command;
+    private final Display display;
     private Entity player;
     private Entity computer;
-    private Skills skills;
+    private CombatSkill combatSkill;
+    private ArrayList<Entity> entities;
 
     public Battle(Entity player) {
         this.player = player;
@@ -20,70 +24,72 @@ public class Battle {
         this.computer = new Entity(pickFoe(), setComputerLevel(), true);
         setComputerLoadout();
         this.command = new CommandParser(player, computer);
-        this.commandHandler = new CommandHandler(player, computer);
         this.display = new Display();
-    }
-
-    public void combatLoop() {
+        combatSkill = new CombatSkill();
         display.newBattle(computer);
-        Entity entity;
-
-        while (battleIsNotOver()) {
-            skills = new Skills(player, computer);
-            entity = command.parseCombatCommands(player, computer);
-            if (entity.isComputer()) {
-                computer = entity;
-            } else {
-                player = entity;
-            }
-
-            skills = new Skills(computer, player);
-            entity = skills.doRandomSkill();
-            if (entity.isComputer()) {
-                computer = entity;
-            } else {
-                player = entity;
-            }
-            if (battleIsNotOver()) {
-                display.combatOutput(player, computer);
-            } else {
-                if (player.isAlive()) {
-                    display.combatOutcome(player, computer);
-                    player.setCoins(player.getCoins() + getRandomNumber(computer.getLevel(), player.getBattles() * 4));
-                    player.setXp(player.getXp() + getRandomNumber(computer.getLevel() * 25, computer.getLevel() * 100));
-                    player.setBattles(player.getBattles() + 1);
-                } else {
-                    display.combatOutcome(player, computer);
-                    player.setCoins(0);
-                    player.setLocation("town");
-                    player.setInventory(new String[]{"Air", "Air", "Air", "Air"});
-                    player.setHp(player.getMaxHP());
-                }
-                player.setInCombat(false);
-                commandHandler.save();
-            }
-        }
+        combatLoop();
     }
 
-    public boolean battleIsNotOver() {
-        boolean isBattleOver = (player.isAlive() && computer.isAlive());
+    private void combatLoop() {
+        while (battleIsNotOver()) {
+            System.out.println(Arrays.toString(computer.getInventory()));
+            entities = command.getAttackCommand(player, computer);
+            updateEntitiesPlayerAttack();
+            entities = combatSkill.computerDoRandomSkill(computer, player);
+            updateEntitiesComputerAttack();
+            if (battleIsNotOver()) display.combatOutput(player, computer);
+        }
+        if (player.isAlive() && player.isInCombat()) playerWin();
+            else playerLose();
+    }
+
+    private void updateEntitiesPlayerAttack() {
+        this.player = entities.get(0);
+        this.computer = entities.get(1);
+    }
+
+    private void updateEntitiesComputerAttack() {
+        this.computer = entities.get(0);
+        this.player = entities.get(1);
+    }
+
+    private void playerWin() {
+        display.combatOutcome(player, computer);
+        player.giveCoins(getRandomNumber(computer.getLevel(), player.getBattles() * 4));
+        player.addXp(getRandomNumber(computer.getLevel() * 25, computer.getLevel() * 100));
+        player.incrementBattles();
+        player.setInCombat(false);
+    }
+
+    private void playerLose() {
+        display.combatOutcome(player, computer);
+        player.setCoins(0);
+        player.setLocation("town");
+        player.resetInventory();
+        player.resetHp();
+        player.incrementBattles();
+        player.setInCombat(false);
+    }
+
+    private boolean battleIsNotOver() {
+        boolean isBattleOver = (player.isAlive() && computer.isAlive() && player.isInCombat() && computer.isInCombat());
         return isBattleOver;
     }
 
-    public String pickFoe() {
-        int randomNumber = getRandomNumber(0, 10);
-        if (randomNumber < 5) {
+    private String pickFoe() {
+        int randomNumber = getRandomNumber(1, 10);
+        if (randomNumber <= 5) {
             return "Wolf";
         } else {
             return "Bandit";
         }
     }
 
-    public void setComputerLoadout() {
+    private void setComputerLoadout() {
         int randomNumber = getRandomNumber(0 , 10);
-        if (randomNumber > 4 && randomNumber < 6) {
+        if (randomNumber >= 4 && randomNumber <= 6) {
             computer.setInventory(new String[]{"Short Sword"});
-        } else if (randomNumber < 4 && randomNumber > 2) {
+        } else if (randomNumber <= 4 && randomNumber >= 2) {
             computer.setInventory(new String[]{"Long Sword"});
         } else if (randomNumber < 2) {
             computer.setInventory(new String[]{"Long Sword"});
@@ -94,7 +100,7 @@ public class Battle {
         }
     }
 
-    public short setComputerLevel() {
+    private short setComputerLevel() {
         short level;
         if (player.getLevel() > 2) {
             level = (short) getRandomNumber(player.getLevel() - 1, player.getLevel() + 2);
