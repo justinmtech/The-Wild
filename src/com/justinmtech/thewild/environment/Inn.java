@@ -4,8 +4,10 @@ import com.justinmtech.thewild.entity.Entity;
 
 import java.util.Scanner;
 
+//The player's retreat, located in the town. Staying in the Inn heals the player for a cost.
 public class Inn {
     private final Entity player;
+    private final static int COST = 2;
 
     public Inn(Entity player) {
         this.player = player;
@@ -25,20 +27,16 @@ public class Inn {
     private void scanInput(Entity player) {
         Scanner scanner = new Scanner(System.in);
         String input = scanner.next();
-        if (input.equalsIgnoreCase("yes") && player.getCoins() >= 2) {
-            player.setHp(player.getMaxHP());
-            int newBalance = player.getCoins() - 2;
-            player.setCoins(newBalance);
+        if (input.equalsIgnoreCase("yes") && player.getCoins() >= COST) {
+            player.resetHp();
+            player.setCoins(player.getCoins() - COST);
             System.out.println("*You feel well rested*");
             System.out.println("*You return to town*");
-
-        } else if (input.equalsIgnoreCase("yes") && player.getCoins() < 2) {
+        } else if (input.equalsIgnoreCase("yes") && player.getCoins() < COST) {
             System.out.println("> Gunthor: You can't pay me with hugs, sorry..");
             System.out.println("*You return to town*");
-
         } else {
             System.out.println("*You return to town*");
         }
     }
-
 }

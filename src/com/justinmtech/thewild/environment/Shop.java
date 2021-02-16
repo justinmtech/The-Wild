@@ -5,6 +5,7 @@ import com.justinmtech.thewild.ui.Display;
 
 import java.util.Scanner;
 
+//A shop for purchasing armor and weapons.
 public class Shop {
     private final Entity player;
     private Display display;

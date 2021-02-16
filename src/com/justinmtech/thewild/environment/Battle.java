@@ -6,10 +6,10 @@ import com.justinmtech.thewild.entity.skills.CombatSkill;
 import com.justinmtech.thewild.ui.CommandParser;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 //TODO simplify battle class as much as possible. Make it only responsible for what it should be.
-
+//Used for creating battles between two entities, the player and computer.
+//This class handles all logic around the battles of entities.
 public class Battle {
     private final CommandParser command;
     private final Display display;
@@ -21,8 +21,8 @@ public class Battle {
     public Battle(Entity player) {
         this.player = player;
         player.setInCombat(true);
-        this.computer = new Entity(pickFoe(), setComputerLevel(), true);
-        setComputerLoadout();
+        this.computer = new Entity(pickFoe(), setRelativeComputerLevel(), true);
+        setRandomComputerLoadout();
         this.command = new CommandParser(player, computer);
         this.display = new Display();
         combatSkill = new CombatSkill();
@@ -30,29 +30,32 @@ public class Battle {
         combatLoop();
     }
 
+    //Wait for player attack command, then trigger a random computer attack until the player fleas or an entity dies.
     private void combatLoop() {
         while (battleIsNotOver()) {
-            System.out.println(Arrays.toString(computer.getInventory()));
             entities = command.getAttackCommand(player, computer);
-            updateEntitiesPlayerAttack();
+            updateEntities("player");
             entities = combatSkill.computerDoRandomSkill(computer, player);
-            updateEntitiesComputerAttack();
+            updateEntities("computer");
             if (battleIsNotOver()) display.combatOutput(player, computer);
         }
         if (player.isAlive() && player.isInCombat()) playerWin();
             else playerLose();
     }
 
-    private void updateEntitiesPlayerAttack() {
-        this.player = entities.get(0);
-        this.computer = entities.get(1);
+    //Update the Battle class player/computer entities with the ArrayList entity response in combatLoop().
+    private void updateEntities(String type) {
+        switch (type) {
+            case "player":
+                this.player = entities.get(0);
+                this.computer = entities.get(1);
+            case "computer":
+                this.computer = entities.get(0);
+                this.player = entities.get(0);
+        }
     }
 
-    private void updateEntitiesComputerAttack() {
-        this.computer = entities.get(0);
-        this.player = entities.get(1);
-    }
-
+    //Triggers win conditions for the player after successfully killing an enemy.
     private void playerWin() {
         display.combatOutcome(player, computer);
         player.giveCoins(getRandomNumber(computer.getLevel(), player.getBattles() * 4));
@@ -61,6 +64,7 @@ public class Battle {
         player.setInCombat(false);
     }
 
+    //Triggers lose conditions for the player after dying to an enemy.
     private void playerLose() {
         display.combatOutcome(player, computer);
         player.setCoins(0);
@@ -71,11 +75,13 @@ public class Battle {
         player.setInCombat(false);
     }
 
+    //Checks if a battle is over or not.
     private boolean battleIsNotOver() {
         boolean isBattleOver = (player.isAlive() && computer.isAlive() && player.isInCombat() && computer.isInCombat());
         return isBattleOver;
     }
 
+    //Picks a random foe name for the player to fight against.
     private String pickFoe() {
         int randomNumber = getRandomNumber(1, 10);
         if (randomNumber <= 5) {
@@ -85,7 +91,8 @@ public class Battle {
         }
     }
 
-    private void setComputerLoadout() {
+    //Sets a random inventory loadout for the computer.
+    private void setRandomComputerLoadout() {
         int randomNumber = getRandomNumber(0 , 10);
         if (randomNumber >= 4 && randomNumber <= 6) {
             computer.setInventory(new String[]{"Short Sword"});
@@ -100,7 +107,8 @@ public class Battle {
         }
     }
 
-    private short setComputerLevel() {
+    //Sets the computer's level relative to the player.
+    private short setRelativeComputerLevel() {
         short level;
         if (player.getLevel() > 2) {
             level = (short) getRandomNumber(player.getLevel() - 1, player.getLevel() + 2);
@@ -108,6 +116,7 @@ public class Battle {
         return level;
     }
 
+    //A random number generator.
     private int getRandomNumber(int min, int max) {
         int randomNumber = (int)(Math.random() * ((max - min) + 1)) + min;
         return randomNumber;

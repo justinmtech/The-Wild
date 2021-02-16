@@ -1,6 +1,11 @@
 package com.justinmtech.thewild.entity;
 
+//This is what the players and NPCs are made from.
 public class Entity {
+    private final static int BASE_HP = 10;
+    private final static int HP_MULTIPLIER = 10;
+    private final static int XP_SCALE = 100;
+
     private int xp;
     private int level;
     private int maxHP;
@@ -14,6 +19,7 @@ public class Entity {
     private String[] inventory;
     private int battles = 0;
 
+
     public Entity(String name, int level, int coins) {
         this.name = name;
         isAlive = true;
@@ -23,8 +29,8 @@ public class Entity {
         battles = 0;
         this.level = level;
         setXPFromLevel();
-        this.hp = 10 + (level * 10);
-        this.maxHP = 10 + (level * 10);
+        this.hp = BASE_HP + (level * HP_MULTIPLIER);
+        this.maxHP = BASE_HP + (level * HP_MULTIPLIER);
         this.coins = coins;
     }
 
@@ -36,8 +42,8 @@ public class Entity {
         battles = 0;
         this.level = 1;
         setXPFromLevel();
-        this.hp = 10 + (level * 10);
-        this.maxHP = 10 + (level * 10);
+        this.hp = BASE_HP + (level * HP_MULTIPLIER);
+        this.maxHP = BASE_HP + (level * HP_MULTIPLIER);
     }
 
     public Entity(String name, int level, boolean computer) {
@@ -48,28 +54,31 @@ public class Entity {
         this.inCombat = true;
         inventory = new String[]{"Air", "Air", "Air", "Air"};
         setXPFromLevel();
-        this.hp = 10 + (level * 10);
-        this.maxHP = 10 + (level * 10);
+        this.hp = BASE_HP + (level * HP_MULTIPLIER);
+        this.maxHP = BASE_HP + (level * HP_MULTIPLIER);
     }
 
     public int getXp() {
         return xp;
     }
 
+    //Setting XP triggers the level and max hp to update as well.
     public void setXp(int xp) {
         this.xp = xp;
         setLevelFromXP();
         updateMaxHP();
     }
 
+    //Adding XP triggers the level and max hp to update as well.
     public void addXp(int amount) {
         this.xp += amount;
         setLevelFromXP();
         updateMaxHP();
     }
 
+    //
     private void updateMaxHP() {
-        maxHP = 10 + (level * 10);
+        maxHP = BASE_HP + (level * HP_MULTIPLIER);
     }
 
     public void removeHP(double amount) {
@@ -187,14 +196,14 @@ public class Entity {
     }
 
     private void setLevelFromXP() {
-        level = xp / 100;
+        level = xp / XP_SCALE;
         if (level < 1) {
             level = 1;
         }
     }
 
     private void setXPFromLevel() {
-        xp = level * 100;
+        xp = level * XP_SCALE;
         if (level == 1) {
             xp = 0;
         }

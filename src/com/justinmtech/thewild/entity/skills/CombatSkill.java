@@ -4,13 +4,18 @@ import com.justinmtech.thewild.entity.Entity;
 
 import java.util.ArrayList;
 
+//The base for all of the Skills.
 public class CombatSkill {
+    private final static double BASE_MULTIPLIER = 1;
+    private final static double MEDIUM_MULTIPLIER = 2;
+    private final static double HIGH_MULTIPLIER = 3;
+    private final static double DIVIDE_LEVEL_BY = 10;
+
     private int baseMultiplier;
     private int maxMultiplier;
 
     int getRandomNumber(int min, int max) {
-        int randomNumber = (int) (Math.random() * ((max - min) + 1)) + min;
-        return randomNumber;
+        return (int) (Math.random() * ((max - min) + 1)) + min;
     }
 
     public ArrayList<Entity> computerDoRandomSkill(Entity attacker, Entity defender) {
@@ -28,31 +33,30 @@ public class CombatSkill {
     }
 
     public double levelMultiplier(Entity attacker) {
-        double multiplier = (attacker.getLevel() / 10) + 1;
-        return multiplier;
+        return (attacker.getLevel() / DIVIDE_LEVEL_BY) + BASE_MULTIPLIER;
     }
 
     public double getWeaponDamageMultiplier(Entity self) {
-        double damage = 1;
+        double damage = BASE_MULTIPLIER;
         for (int i = 0; i < self.getInventory().length; i++) {
             if (self.getInventory()[i].equalsIgnoreCase("Long_Sword")) {
-                damage = 3;
+                damage = HIGH_MULTIPLIER;
                 break;
             } else if (self.getInventory()[i].equalsIgnoreCase("Short_Sword")) {
-                damage = 2;
+                damage = MEDIUM_MULTIPLIER;
             }
         }
         return damage;
     }
 
     public double getArmorRatingMultiplier(Entity defender) {
-        double rating = 1;
+        double rating = BASE_MULTIPLIER;
         for (int i = 0; i < defender.getInventory().length; i++) {
             if (defender.getInventory()[i].equalsIgnoreCase("Iron_Armor")) {
-                rating = 3;
+                rating = HIGH_MULTIPLIER;
                 break;
             } else if (defender.getInventory()[i].equalsIgnoreCase("Leather_Armor")) {
-                rating = 2;
+                rating = MEDIUM_MULTIPLIER;
             }
         }
         return rating;
