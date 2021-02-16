@@ -6,8 +6,8 @@ import com.justinmtech.thewild.user_interface.Display;
 //The help command.
 //This command lists help commands based on what situation your character is in.
 public class Help {
-    private Entity player;
-    private Display display;
+    private final Entity player;
+    private final Display display;
 
     public Help(Entity player) {
         this.player = player;

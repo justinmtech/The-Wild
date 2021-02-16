@@ -2,8 +2,7 @@ package com.justinmtech.thewild.commands;
 
 import com.justinmtech.thewild.entity.Entity;
 import com.justinmtech.thewild.user_interface.Display;
-
-import java.util.Scanner;
+import com.justinmtech.thewild.utilities.ScanInput;
 
 //The shop command.
 //A shop for purchasing armor and weapons.
@@ -14,7 +13,7 @@ public class Shop {
     private static final int IRON_ARMOR_COST = 72;
 
     private final Entity player;
-    private Display display;
+    private final Display display;
     private String input;
     private boolean quit;
 
@@ -26,6 +25,7 @@ public class Shop {
         player.setLocation("shop");
         loop();
     }
+
     //The player will be in the shop loop until they type 'leave'
     private void loop() {
         welcome();
@@ -60,6 +60,7 @@ public class Shop {
             System.out.println(items[i] + " [" + getCostFromCommand(items[i]) + " Coins] ");
         }
     }
+
     //The cost of the items in the shop.
     private int getCostFromCommand(String input) {
         int cost = 0;
@@ -74,16 +75,15 @@ public class Shop {
         }
         return cost;
     }
+
     //Scan the player's commands while in the shop.
     private void listenToPlayerCommands(Entity player) {
-        Scanner scanner = new Scanner(System.in);
-        input = scanner.next();
+        input = ScanInput.getString();
         if (input.equalsIgnoreCase("leave")) {
             quit = true;
-        }
-        else if (isItemInStock(input)) {
+        } else if (isItemInStock(input)) {
             System.out.println("Do you want to buy " + input + " for " + getCostFromCommand(input) + "? Type 'yes' to confirm or 'no' to cancel.");
-            String confirmation = scanner.next();
+            String confirmation = ScanInput.getString();
             if (confirmation.equalsIgnoreCase("yes")) {
                 doTransaction(player);
                 displayItems();
@@ -94,6 +94,7 @@ public class Shop {
             System.out.println("> Lisa: I don't sell that here.");
         }
     }
+
     //Give a player an item if possible.
     private void putItemInInventory(Entity player) {
         int invSize = player.getInventory().length;
@@ -106,6 +107,7 @@ public class Shop {
         }
     }
 
+    //Check if a player has enough money to purchase something, and take the cost if so.
     private void doTransaction(Entity player) {
         if (player.getCoins() >= getCostFromCommand(input)) {
             player.setCoins(player.getCoins() - getCostFromCommand(input));
@@ -116,11 +118,11 @@ public class Shop {
         }
     }
 
+    //Check if an item is in stock and return true/false.
     private boolean isItemInStock(String input) {
         boolean inStock = false;
-        int i;
         String[] items = {"Short_Sword", "Long_Sword", "Leather_Armor", "Iron_Armor"};
-        for (i = 0; i < items.length; i++) {
+        for (int i = 0; i < items.length; i++) {
             if (input.equalsIgnoreCase(items[i])) {
                 inStock = true;
             }

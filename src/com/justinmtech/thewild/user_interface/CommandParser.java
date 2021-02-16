@@ -6,23 +6,21 @@ import com.justinmtech.thewild.entity.skill_logic.skills.Flea;
 import com.justinmtech.thewild.entity.skill_logic.skills.Heal;
 import com.justinmtech.thewild.entity.skill_logic.skills.Slash;
 import com.justinmtech.thewild.entity.skill_logic.skills.Stab;
+import com.justinmtech.thewild.utilities.ScanInput;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 //Listen for commands and execute them.
 public class CommandParser {
-    private Entity player;
-    private Scanner scanner;
+    private final Entity player;
     private String input;
 
     public CommandParser(Entity player) {
-        scanner = new Scanner(System.in);
         this.player = player;
     }
 
     public void parseCommand() {
-        input = scanner.next();
+        input = ScanInput.getString();
         if (input.equalsIgnoreCase("help")) {
             new Help(player);
         } else if (input.equalsIgnoreCase("info")) {
@@ -53,7 +51,7 @@ public class CommandParser {
         ArrayList<Entity> entities = new ArrayList<>();
         entities.add(attacker);
         entities.add(defender);
-        input = scanner.next();
+        input = ScanInput.getString();
 
         if (input.equalsIgnoreCase("slash")) {
             Slash slash = new Slash(attacker, defender);

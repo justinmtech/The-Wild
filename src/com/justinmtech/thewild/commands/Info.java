@@ -6,8 +6,8 @@ import com.justinmtech.thewild.user_interface.Display;
 //The info command.
 //Info displays useful information about your player.
 public class Info {
-    private Entity player;
-    private Display display;
+    private final Entity player;
+    private final Display display;
 
     public Info(Entity player) {
         display = new Display();

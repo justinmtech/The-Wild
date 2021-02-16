@@ -6,8 +6,8 @@ import com.justinmtech.thewild.user_interface.Display;
 //The wild command.
 //This takes your player to the wilderness, where enemies can be fought.
 public class Wild {
-    private Entity player;
-    private Display display;
+    private final Entity player;
+    private final Display display;
 
     public Wild(Entity player) {
         this.player = player;

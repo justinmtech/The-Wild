@@ -1,8 +1,7 @@
 package com.justinmtech.thewild.commands;
 
 import com.justinmtech.thewild.entity.Entity;
-
-import java.util.Scanner;
+import com.justinmtech.thewild.utilities.ScanInput;
 
 //The Inn command, usable while in town.
 //Using the Inn heals the player for a cost.
@@ -30,8 +29,7 @@ public class Inn {
 
     //Listen to the player's commands while visiting the inn.
     private void scanInput(Entity player) {
-        Scanner scanner = new Scanner(System.in);
-        String input = scanner.next();
+        String input = ScanInput.getString();
         if (input.equalsIgnoreCase("yes") && player.getCoins() >= COST_TO_STAY) {
             player.resetHp();
             player.setCoins(player.getCoins() - COST_TO_STAY);

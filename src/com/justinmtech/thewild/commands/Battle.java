@@ -4,6 +4,7 @@ import com.justinmtech.thewild.entity.Entity;
 import com.justinmtech.thewild.entity.skill_logic.CombatSkillsUtil;
 import com.justinmtech.thewild.user_interface.CommandParser;
 import com.justinmtech.thewild.user_interface.Display;
+import com.justinmtech.thewild.utilities.RandomNumberGenerator;
 
 import java.util.ArrayList;
 
@@ -60,8 +61,8 @@ public class Battle {
     //Triggers win conditions for the player after successfully killing an enemy.
     private void playerWin() {
         display.combatOutcome(player, computer);
-        player.giveCoins(getRandomNumber(computer.getLevel(), player.getBattles() * 4));
-        player.addXp(getRandomNumber(computer.getLevel() * 25, computer.getLevel() * 100));
+        player.giveCoins(RandomNumberGenerator.generate(computer.getLevel(), player.getBattles() * 4));
+        player.addXp(RandomNumberGenerator.generate(computer.getLevel() * 25, computer.getLevel() * 100));
         player.incrementBattles();
         player.setInCombat(false);
     }
@@ -85,7 +86,7 @@ public class Battle {
 
     //Picks a random foe name for the player to fight against.
     private String pickFoe() {
-        int randomNumber = getRandomNumber(1, 10);
+        int randomNumber = RandomNumberGenerator.generate(1, 10);
         if (randomNumber <= 5) {
             return "Wolf";
         } else {
@@ -95,7 +96,7 @@ public class Battle {
 
     //Sets a random inventory loadout for the computer.
     private void setRandomComputerLoadout() {
-        int randomNumber = getRandomNumber(0 , 10);
+        int randomNumber = RandomNumberGenerator.generate(0 , 10);
         if (randomNumber >= 4 && randomNumber <= 6) {
             computer.setInventory(new String[]{"Short Sword"});
         } else if (randomNumber <= 4 && randomNumber >= 2) {
@@ -113,14 +114,8 @@ public class Battle {
     private short setRelativeComputerLevel() {
         short level;
         if (player.getLevel() > 2) {
-            level = (short) getRandomNumber(player.getLevel() - 1, player.getLevel() + 2);
+            level = (short) RandomNumberGenerator.generate(player.getLevel() - 1, player.getLevel() + 2);
         } else level = 1;
         return level;
-    }
-
-    //A random number generator.
-    private int getRandomNumber(int min, int max) {
-        int randomNumber = (int)(Math.random() * ((max - min) + 1)) + min;
-        return randomNumber;
     }
 }
