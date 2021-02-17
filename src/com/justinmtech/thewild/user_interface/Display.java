@@ -89,10 +89,7 @@ public class Display {
         System.out.println("XP: " + player.getXp());
         System.out.println("Location: " + player.getLocation());
         System.out.print("Inventory: ");
-        int i;
-        for (i = 0; i < player.getInventory().length; i++) {
-                System.out.print(player.getInventory()[i] + " ");
-            }
+        System.out.print(player.getInventory()[0] + " " + player.getInventory()[1] + " " + player.getInventory()[2]);
         System.out.println();
         line();
     }

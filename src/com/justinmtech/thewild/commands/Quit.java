@@ -1,15 +1,19 @@
 package com.justinmtech.thewild.commands;
 
 import com.justinmtech.thewild.Game;
+import com.justinmtech.thewild.data.PlayerDataHandler;
 import com.justinmtech.thewild.entity.Entity;
 import com.justinmtech.thewild.utilities.ScanInput;
 
 //The quit command.
 //Quits the game and optionally saves your data.
 public class Quit extends Command {
+    private PlayerDataHandler data;
+
     public Quit(Entity player) {
         setLabel("quit");
         setPlayer(player);
+        data = new PlayerDataHandler();
         tryQuit();
     }
 
@@ -21,6 +25,7 @@ public class Quit extends Command {
             if (ScanInput.getString().equalsIgnoreCase("yes")) {
 
                 System.out.println("Thanks for playing!");
+                data.save(getPlayer());
                 Game.quitGame();
             } else {
                 System.out.println("Quit cancelled!");

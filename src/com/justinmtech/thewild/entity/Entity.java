@@ -21,6 +21,19 @@ public class Entity {
 
 
     //Creates an entity based on name, level and coins
+    public Entity() {
+        name = "DefaultUsername";
+        level = 1;
+        coins = 0;
+        isAlive = true;
+        inCombat = false;
+        isComputer = false;
+        inventory = new String[]{"", "", ""};
+        battles = 0;
+        this.hp = BASE_HP + (level * HP_MULTIPLIER);
+        this.maxHP = BASE_HP + (level * HP_MULTIPLIER);
+    }
+
     public Entity(String name, int level, int coins) {
         this.name = name;
         this.level = level;
