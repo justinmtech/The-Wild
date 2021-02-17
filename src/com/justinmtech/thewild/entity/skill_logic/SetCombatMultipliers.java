@@ -3,6 +3,7 @@ package com.justinmtech.thewild.entity.skill_logic;
 import com.justinmtech.thewild.entity.Entity;
 
 //The base for all of the Skills.
+//TODO make it to where the best weapon/armor is always the one that the rating is based on.
 public class SetCombatMultipliers {
     private final static double TIER_1 = 1;
     private final static double TIER_2 = 2;

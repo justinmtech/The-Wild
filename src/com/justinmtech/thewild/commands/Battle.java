@@ -16,8 +16,8 @@ public class Battle extends Command {
     private final static int CPU_LEVEL_DIFFERENCE_LOW = 4;
     private final static int CPU_LEVEL_DIFFERENCE_HIGH = 2;
     private final static int COIN_LOOT_MULTIPLIER = 4;
-    private final static int XP_MULTIPLIER_LOW = 10;
-    private final static int XP_MULTIPLIER_HIGH = 100;
+    private final static int XP_MULTIPLIER_LOW = 2;
+    private final static int XP_MULTIPLIER_HIGH = 20;
 
     private final CommandParser parser;
     private final EnemyAI enemyAI;
@@ -118,9 +118,9 @@ public class Battle extends Command {
     //Sets the computer's level relative to the player.
     private short setRelativeComputerLevel() {
         short level;
-        if (getPlayer().getLevel() > 5) {
+        if (getPlayer().getLevel() > 4) {
             level = (short) RandomNumberGenerator.generate(getPlayer().getLevel() - CPU_LEVEL_DIFFERENCE_LOW, getPlayer().getLevel() + CPU_LEVEL_DIFFERENCE_HIGH);
-        } else level = 1;
+        } else level = (short) RandomNumberGenerator.generate(0,3);
         return level;
     }
 }
