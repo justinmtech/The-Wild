@@ -2,17 +2,15 @@ package com.justinmtech.thewild.user_interface;
 
 import com.justinmtech.thewild.commands.*;
 import com.justinmtech.thewild.entity.Entity;
-import com.justinmtech.thewild.entity.skill_logic.skills.Flea;
-import com.justinmtech.thewild.entity.skill_logic.skills.Heal;
-import com.justinmtech.thewild.entity.skill_logic.skills.Slash;
-import com.justinmtech.thewild.entity.skill_logic.skills.Stab;
+import com.justinmtech.thewild.entity.combat_logic.skills.Flea;
+import com.justinmtech.thewild.entity.combat_logic.skills.Heal;
+import com.justinmtech.thewild.entity.combat_logic.skills.Slash;
+import com.justinmtech.thewild.entity.combat_logic.skills.Stab;
 import com.justinmtech.thewild.utilities.ScanInput;
 
 import java.util.ArrayList;
 
-//TODO determine if there is a better way to route commands from an input.
-//TODO Maps may be a better way to store commands instead of using long else if statements.
-//Listen for commands and execute them.
+//Listen for commands and execute them
 public class CommandParser {
     private final Entity player;
     private String input;
@@ -21,6 +19,7 @@ public class CommandParser {
         this.player = player;
     }
 
+    //Listen for the player's input, then trigger a response
     public void parseCommand() {
         input = ScanInput.getString();
         switch (input) {
@@ -38,6 +37,8 @@ public class CommandParser {
         }
     }
 
+    //Listen for the player's attack command, then execute it. It returns an Array of entities
+    //for the attacker and defender, since the HP of both can change in a single attack.
     public ArrayList<Entity> getAttackCommand(Entity attacker, Entity defender) {
         ArrayList<Entity> entities = new ArrayList<>();
         entities.add(attacker);

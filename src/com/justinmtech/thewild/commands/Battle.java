@@ -1,13 +1,12 @@
 package com.justinmtech.thewild.commands;
 
 import com.justinmtech.thewild.entity.Entity;
-import com.justinmtech.thewild.entity.skill_logic.EnemyAI;
+import com.justinmtech.thewild.entity.combat_logic.EnemyAI;
 import com.justinmtech.thewild.user_interface.CommandParser;
 import com.justinmtech.thewild.user_interface.Display;
 import com.justinmtech.thewild.utilities.RandomNumberGenerator;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 //The battle command.
 //Used for organizing battle instances when the player issues the "battle" command in the wild.
@@ -42,7 +41,7 @@ public class Battle extends Command {
         while (battleIsNotOver()) {
             entities = parser.getAttackCommand(getPlayer(), getComputer());
             updateEntities("player");
-            entities = enemyAI.doRandomSkill(getComputer(), getPlayer());
+            entities = enemyAI.doSkill(getComputer(), getPlayer());
             updateEntities("computer");
             if (battleIsNotOver()) getDisplay().combatOutput(getPlayer(), getComputer());
         }
@@ -105,13 +104,13 @@ public class Battle extends Command {
     private void setRandomComputerLoadout() {
         int randomNumber = RandomNumberGenerator.generate(1 , 10);
         if (randomNumber >= 7) {
-            getComputer().setInventory(new ArrayList<>(Arrays.asList("Bronze_Short_Sword")));
+            getComputer().setInventory(new String[]{"Bronze_Short_Sword"});
         } else if (randomNumber >= 5) {
-            getComputer().setInventory(new ArrayList<>(Arrays.asList("Bronze_Long_Sword")));
+            getComputer().setInventory(new String[]{"Bronze_Long_Sword"});
         } else if (randomNumber >= 2) {
-            getComputer().setInventory(new ArrayList<>(Arrays.asList("Iron_Long_Sword", "Leather_Armor")));
+            getComputer().setInventory(new String[]{"Iron_Long_Sword", "Leather_Armor"});
         } else {
-            getComputer().setInventory(new ArrayList<>(Arrays.asList("Iron_Short_Sword", "Iron_Armor")));
+            getComputer().setInventory(new String[]{"Iron_Short_Sword", "Iron_Armor"});
         }
     }
 

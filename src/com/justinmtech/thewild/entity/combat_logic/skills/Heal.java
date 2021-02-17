@@ -1,7 +1,7 @@
-package com.justinmtech.thewild.entity.skill_logic.skills;
+package com.justinmtech.thewild.entity.combat_logic.skills;
 
 import com.justinmtech.thewild.entity.Entity;
-import com.justinmtech.thewild.entity.skill_logic.SetCombatMultipliers;
+import com.justinmtech.thewild.entity.combat_logic.SetCombatMultipliers;
 import com.justinmtech.thewild.utilities.RandomNumberGenerator;
 
 import java.util.ArrayList;
@@ -14,13 +14,13 @@ public class Heal extends SetCombatMultipliers {
     public Heal(Entity attacker, Entity defender) {
         this.attacker = attacker;
         this.defender = defender;
-        setBaseMultiplier(0);
-        setMaxMultiplier(5);
+        setBaseSkillMultiplier(0);
+        setMaxSkillMultiplier(5);
     }
 
     public ArrayList<Entity> doHeal() {
         ArrayList<Entity> entities = new ArrayList<>();
-        attacker.addHP(RandomNumberGenerator.generate(getBaseMultiplier(), getMaxMultiplier()) * levelMultiplier(attacker));
+        attacker.addHP(RandomNumberGenerator.generate(getBaseSkillMultiplier(), getMaxSkillMultiplier()) * levelMultiplier(attacker));
         entities.add(attacker);
         entities.add(defender);
         return entities;

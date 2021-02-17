@@ -3,6 +3,7 @@ package com.justinmtech.thewild.commands;
 import com.justinmtech.thewild.entity.Entity;
 import com.justinmtech.thewild.user_interface.Display;
 
+//The parent class for the main commands of the program found in /commands
 public class Command {
     private String label;
     private Entity player;

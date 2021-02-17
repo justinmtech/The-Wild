@@ -2,14 +2,17 @@ package com.justinmtech.thewild.user_interface;
 
 import com.justinmtech.thewild.entity.Entity;
 
+//Used for displaying configurable text as a response to frequently occurring game events
 public class Display {
 
+    //Shows HP of player and computer
     public void combatOutput(Entity player, Entity computer) {
         line();
         System.out.println("Your HP: " + (int) player.getHp() + "/" + player.getMaxHP() + " || " + computer.getName() + " HP: " + (int) computer.getHp() + "/" + computer.getMaxHP());
         line();
     }
 
+    //Shows the outcome of a battle when it ends
     public void combatOutcome(Entity player, Entity computer) {
         if (player.isAlive() && player.isInCombat()) {
             line();
@@ -29,12 +32,14 @@ public class Display {
         }
     }
 
+    //Shows your opponent after entering a battle
     public void newBattle(Entity computer) {
         line();
         System.out.println("You are now in battle with a " + computer.getName() + " (Lvl " + computer.getLevel() + ")");
         line();
     }
 
+    //Generic help
     public void otherHelp() {
         System.out.println("Available Commands:");
         System.out.println("> info - get player info");
@@ -44,6 +49,7 @@ public class Display {
         System.out.println("> quit - quit the game");
     }
 
+    //Help that shows while in town
     public void townHelp() {
         System.out.println("Available Commands:");
         System.out.println("> info - get player info");
@@ -53,6 +59,7 @@ public class Display {
         System.out.println("> quit - quit the game");
     }
 
+    //Help that shows while in wild
     public void wildHelp() {
         System.out.println("Available Commands:");
         System.out.println("> info - get player info");
@@ -61,6 +68,7 @@ public class Display {
         System.out.println("> quit - quit the game");
     }
 
+    //Help that shows while in combat
     public void combatHelp() {
         System.out.println("Available Commands:");
         System.out.println("> info - get player info");
@@ -70,6 +78,7 @@ public class Display {
         System.out.println("> quit - quit the game");
     }
 
+    //Shows info about the player
     public void info(Entity player) {
         line();
         System.out.println("Player Info: " + player.getName());
@@ -81,8 +90,8 @@ public class Display {
         System.out.println("Location: " + player.getLocation());
         System.out.print("Inventory: ");
         int i;
-        for (i = 0; i < player.getInventory().size(); i++) {
-                System.out.print(player.getInventory().get(i) + " ");
+        for (i = 0; i < player.getInventory().length; i++) {
+                System.out.print(player.getInventory()[i] + " ");
             }
         System.out.println();
         line();

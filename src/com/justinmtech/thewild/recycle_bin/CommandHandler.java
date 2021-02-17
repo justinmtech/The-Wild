@@ -1,5 +1,8 @@
 package com.justinmtech.thewild.recycle_bin;
 
+//Unused class, waiting to re-use the save and load methods somewhere else
+//TODO Re-implement loading and saving somewhere else
+
 /*public class CommandHandler {
     private final Entity player;
     private final Display display;

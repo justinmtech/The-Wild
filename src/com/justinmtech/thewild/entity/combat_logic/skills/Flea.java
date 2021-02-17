@@ -1,7 +1,7 @@
-package com.justinmtech.thewild.entity.skill_logic.skills;
+package com.justinmtech.thewild.entity.combat_logic.skills;
 
 import com.justinmtech.thewild.entity.Entity;
-import com.justinmtech.thewild.entity.skill_logic.SetCombatMultipliers;
+import com.justinmtech.thewild.entity.combat_logic.SetCombatMultipliers;
 import com.justinmtech.thewild.utilities.RandomNumberGenerator;
 
 import java.util.ArrayList;

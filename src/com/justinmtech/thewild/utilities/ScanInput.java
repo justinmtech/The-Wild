@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class ScanInput {
     private static final Scanner scanner = new Scanner(System.in);
 
+    //Scans the value entered by the player and returns a trimmed String
     public static String getString() {
         return scanner.next().trim();
     }

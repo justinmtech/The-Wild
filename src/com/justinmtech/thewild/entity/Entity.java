@@ -1,7 +1,5 @@
 package com.justinmtech.thewild.entity;
 
-import java.util.ArrayList;
-
 //This is what the players and NPCs are made from.
 public class Entity {
     private final static int BASE_HP = 10;
@@ -18,16 +16,17 @@ public class Entity {
     private String name;
     private String location = "town";
     private int coins;
-    private ArrayList<String> inventory;
+    private String[] inventory;
     private int battles = 0;
 
 
+    //Creates an entity based on name, level and coins
     public Entity(String name, int level, int coins) {
         this.name = name;
         isAlive = true;
         inCombat = false;
         isComputer = false;
-        inventory = new ArrayList<>();
+        inventory = new String[]{"", "", ""};
         battles = 0;
         this.level = level;
         setXPFromLevel();
@@ -36,11 +35,12 @@ public class Entity {
         this.coins = coins;
     }
 
+    //Creates a basic NPC entity
     public Entity(boolean computer) {
         isComputer = computer;
         isAlive = true;
         inCombat = true;
-        inventory = new ArrayList<>();
+        inventory = new String[]{"", "", ""};
         battles = 0;
         this.level = 1;
         setXPFromLevel();
@@ -48,13 +48,15 @@ public class Entity {
         this.maxHP = BASE_HP + (level * HP_MULTIPLIER);
     }
 
+    //Creates an entity based on name and level, with the option of
+    //being a computer.
     public Entity(String name, int level, boolean computer) {
         this.name = name;
         this.level = level;
         this.isComputer = computer;
         this.isAlive = true;
         this.inCombat = true;
-        inventory = new ArrayList<>();
+        inventory = new String[3];
         setXPFromLevel();
         this.hp = BASE_HP + (level * HP_MULTIPLIER);
         this.maxHP = BASE_HP + (level * HP_MULTIPLIER);
@@ -112,6 +114,7 @@ public class Entity {
         return hp;
     }
 
+    //Sets the HP and triggers an isAlive check
     public void setHp(double hp) {
         this.hp = hp;
         isAlive = isAlive();
@@ -173,16 +176,17 @@ public class Entity {
         this.coins += amount;
     }
 
-    public ArrayList<String> getInventory() {
+    public String[] getInventory() {
         return inventory;
     }
 
-    public void setInventory(ArrayList<String> inventory) {
+    public void setInventory(String[] inventory) {
         this.inventory = inventory;
     }
 
+    //Resets the inventory
     public void resetInventory() {
-        this.inventory = new ArrayList<>();
+        this.inventory = new String[]{"", "", ""};
     }
 
     public int getBattles() {
@@ -197,6 +201,7 @@ public class Entity {
         this.battles = battles++;
     }
 
+    //Sets the entity's level based on the amount of XP they have
     private void setLevelFromXP() {
         level = xp / XP_SCALE;
         if (level < 1) {
@@ -204,6 +209,7 @@ public class Entity {
         }
     }
 
+    //Sets the entity's XP bsaed on the level they are
     private void setXPFromLevel() {
         xp = level * XP_SCALE;
         if (level == 1) {

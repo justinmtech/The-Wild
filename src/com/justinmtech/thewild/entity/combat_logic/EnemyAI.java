@@ -1,19 +1,22 @@
-package com.justinmtech.thewild.entity.skill_logic;
+package com.justinmtech.thewild.entity.combat_logic;
 
 import com.justinmtech.thewild.entity.Entity;
-import com.justinmtech.thewild.entity.skill_logic.skills.Heal;
-import com.justinmtech.thewild.entity.skill_logic.skills.Slash;
-import com.justinmtech.thewild.entity.skill_logic.skills.Stab;
+import com.justinmtech.thewild.entity.combat_logic.skills.Heal;
+import com.justinmtech.thewild.entity.combat_logic.skills.Slash;
+import com.justinmtech.thewild.entity.combat_logic.skills.Stab;
 import com.justinmtech.thewild.utilities.RandomNumberGenerator;
 
 import java.util.ArrayList;
 
+//A simple AI to make enemy behavior change slightly based on their HP.
 public class EnemyAI {
     private ArrayList<Entity> entities = new ArrayList<>();
+    //The higher the aggression level, the less defensive.
+    //Lower aggression level results in more healing and less stabbing.
     private int aggressionLevel;
-    private boolean boss;
 
-    public ArrayList<Entity> doRandomSkill(Entity attacker, Entity defender) {
+    //Picks a skill to execute based on their aggression level and randomness.
+    public ArrayList<Entity> doSkill(Entity attacker, Entity defender) {
         entities.add(attacker);
         entities.add(defender);
         setAggressionLevel(attacker);
@@ -49,6 +52,7 @@ public class EnemyAI {
         return entities;
     }
 
+    //Determines the aggression level based on HP.
     private void setAggressionLevel(Entity attacker) {
         if (attacker.getHp() >= attacker.getMaxHP() * .75) {
             aggressionLevel = 10;

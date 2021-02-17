@@ -1,29 +1,30 @@
 package com.justinmtech.thewild.testing;
 
 import com.justinmtech.thewild.entity.Entity;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import static org.junit.Assert.assertEquals;
 
+//Used for unit testing in the Shop class
 public class TestShop {
     Entity player = new Entity("Bob", 5, 100);
-    String input = "Dragon_Blade";
+    String input = "Big_Potion";
 
-    @BeforeEach
-    void setup() {
-        player.setInventory(new ArrayList<>(Arrays.asList("Iron_Sword", "Steel_Sword", "Leather_Armor")));
+    @Test
+    int getItemType() {
+        int itemType = 0;
+        if (input.contains("Armor")) {
+            itemType = 1;
+        } else if (input.contains("Potion")) {
+            itemType = 2;
+        }
+        assertEquals(2, itemType);
+        return itemType;
     }
 
-    //Give a player an item if possible.
     @Test
     void putItemInInventory() {
-        if (player.getInventory().size() < 32) {
-            player.getInventory().add(input);
-        }
-        else {
-            System.out.println("Inventory full!");
-        }
+            player.getInventory()[getItemType()] = input;
+            assertEquals(2, getItemType());
     }
 }

@@ -29,6 +29,7 @@ public class Game {
         }
     }
 
+    //Stop the game
     public static void quitGame() {
         gameRunning = false;
     }

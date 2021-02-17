@@ -7,6 +7,7 @@ import com.justinmtech.thewild.utilities.ScanInput;
 //The shop command.
 //A shop for purchasing armor and weapons.
 public class Shop extends Command {
+    //Below is all of the items stocked and their cost
     private static final int BRONZE_SHORT_SWORD_COST = 12;
     private static final int BRONZE_LONG_SWORD_COST = 36;
     private static final int IRON_SHORT_SWORD_COST = 48;
@@ -31,24 +32,24 @@ public class Shop extends Command {
             "Leather_Armor", "Bronze_Armor", "Iron_Armor", "Steel_Armor", "Diamond_Armor", "Common_Healing_Potion", "Uncommon_Healing_Potion", "Rare_Healing_Potion", "Legendary_Healing_Potion"};
 
     private String input;
-    private boolean quit;
+    private boolean hasLeftShop;
 
     public Shop(Entity player) {
         setLabel("shop");
         setPlayer(player);
         setDisplay(new Display());
         getDisplay().goToShop();
-        quit = false;
+        hasLeftShop = false;
         getPlayer().setLocation("shop");
         loop();
     }
 
-    //The player will be in the shop loop until they type 'leave'
+    //The player will be in the shop loop until they type 'leave' or until hasLeftShop is true.
     private void loop() {
         welcome();
         displayItems();
         talk();
-        while (!quit) {
+        while (!hasLeftShop) {
             listenToPlayerCommands();
         }
         getPlayer().setLocation("town");
@@ -121,7 +122,7 @@ public class Shop extends Command {
     private void listenToPlayerCommands() {
         input = ScanInput.getString();
         if (input.equalsIgnoreCase("leave")) {
-            quit = true;
+            hasLeftShop = true;
         } else if (isItemInStock(input)) {
             System.out.println("Do you want to buy " + input + " for " + getCostFromCommand(input) + "? Type 'yes' to confirm or 'no' to cancel.");
             String confirmation = ScanInput.getString();
@@ -136,14 +137,22 @@ public class Shop extends Command {
         }
     }
 
-    //Give a player an item if possible.
+    //Put the item in the proper inventory slot (0-2) based on what type it is.
+    //This replaces the item that was in the slot previously, if there was one.
     private void putItemInInventory() {
-        if (getPlayer().getInventory().size() < 32) {
-            getPlayer().getInventory().add(input);
+        getPlayer().getInventory()[getItemType()] = input;
+    }
+
+    //Get an item's type from the input
+    //0 = swords, 1 = armor, 2 = potions
+    private int getItemType() {
+        int itemType = 0;
+        if (input.contains("Armor")) {
+            itemType = 1;
+        } else if (input.contains("Potion")) {
+            itemType = 2;
         }
-        else {
-            System.out.println("Inventory full!");
-        }
+        return itemType;
     }
 
     //Check if a player has enough money to purchase something, and take the cost if so.
