@@ -104,13 +104,13 @@ public class Battle extends Command {
     private void setRandomComputerLoadout() {
         int randomNumber = RandomNumberGenerator.generate(1 , 10);
         if (randomNumber >= 7) {
-            getComputer().setInventory(new String[]{"Bronze_Short_Sword"});
+            getComputer().setInventory(new String[]{"Bronze_Short_Sword", "", ""});
         } else if (randomNumber >= 5) {
-            getComputer().setInventory(new String[]{"Bronze_Long_Sword"});
+            getComputer().setInventory(new String[]{"Bronze_Long_Sword", "", ""});
         } else if (randomNumber >= 2) {
-            getComputer().setInventory(new String[]{"Iron_Long_Sword", "Leather_Armor"});
+            getComputer().setInventory(new String[]{"Iron_Long_Sword", "Leather_Armor", ""});
         } else {
-            getComputer().setInventory(new String[]{"Iron_Short_Sword", "Iron_Armor"});
+            getComputer().setInventory(new String[]{"Iron_Short_Sword", "Iron_Armor", ""});
         }
     }
 

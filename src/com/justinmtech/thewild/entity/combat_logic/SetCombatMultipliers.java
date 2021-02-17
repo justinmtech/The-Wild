@@ -90,7 +90,7 @@ public class SetCombatMultipliers {
                 case "Diamond_Armor":
                     rating = TIER_6;
                     break;
-                default :
+                default:
                     rating = TIER_1;
                     break;
             }

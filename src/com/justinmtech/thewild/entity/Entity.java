@@ -23,16 +23,16 @@ public class Entity {
     //Creates an entity based on name, level and coins
     public Entity(String name, int level, int coins) {
         this.name = name;
+        this.level = level;
+        this.coins = coins;
         isAlive = true;
         inCombat = false;
         isComputer = false;
         inventory = new String[]{"", "", ""};
         battles = 0;
-        this.level = level;
         setXPFromLevel();
         this.hp = BASE_HP + (level * HP_MULTIPLIER);
         this.maxHP = BASE_HP + (level * HP_MULTIPLIER);
-        this.coins = coins;
     }
 
     //Creates a basic NPC entity
@@ -42,10 +42,10 @@ public class Entity {
         inCombat = true;
         inventory = new String[]{"", "", ""};
         battles = 0;
-        this.level = 1;
+        level = 1;
         setXPFromLevel();
-        this.hp = BASE_HP + (level * HP_MULTIPLIER);
-        this.maxHP = BASE_HP + (level * HP_MULTIPLIER);
+        hp = BASE_HP + (level * HP_MULTIPLIER);
+        maxHP = BASE_HP + (level * HP_MULTIPLIER);
     }
 
     //Creates an entity based on name and level, with the option of
@@ -54,12 +54,12 @@ public class Entity {
         this.name = name;
         this.level = level;
         this.isComputer = computer;
-        this.isAlive = true;
-        this.inCombat = true;
-        inventory = new String[3];
+        isAlive = true;
+        inCombat = true;
+        inventory = new String[]{"", "", ""};
         setXPFromLevel();
-        this.hp = BASE_HP + (level * HP_MULTIPLIER);
-        this.maxHP = BASE_HP + (level * HP_MULTIPLIER);
+        hp = BASE_HP + (level * HP_MULTIPLIER);
+        maxHP = BASE_HP + (level * HP_MULTIPLIER);
     }
 
     public int getXp() {
