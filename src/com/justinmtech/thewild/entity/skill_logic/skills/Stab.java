@@ -1,12 +1,12 @@
 package com.justinmtech.thewild.entity.skill_logic.skills;
 
 import com.justinmtech.thewild.entity.Entity;
-import com.justinmtech.thewild.entity.skill_logic.CombatSkillsUtil;
+import com.justinmtech.thewild.entity.skill_logic.SetCombatMultipliers;
 import com.justinmtech.thewild.utilities.RandomNumberGenerator;
 
 import java.util.ArrayList;
 
-public class Stab extends CombatSkillsUtil {
+public class Stab extends SetCombatMultipliers {
     private Entity attacker;
     private Entity defender;
     public Stab(Entity attacker, Entity defender) {

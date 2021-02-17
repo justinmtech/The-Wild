@@ -5,17 +5,14 @@ import com.justinmtech.thewild.user_interface.Display;
 
 //The info command.
 //Info displays useful information about your player.
-public class Info {
-    private final Entity player;
-    private final Display display;
-
+public class Info extends Command {
     public Info(Entity player) {
-        display = new Display();
-        this.player = player;
+        setLabel("info");
+        setDisplay(new Display());
+        setPlayer(player);
         showInfo();
     }
-
     private void showInfo() {
-        display.info(player);
+        getDisplay().info(getPlayer());
     }
 }

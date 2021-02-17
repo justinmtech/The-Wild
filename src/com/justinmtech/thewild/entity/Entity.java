@@ -1,5 +1,7 @@
 package com.justinmtech.thewild.entity;
 
+import java.util.ArrayList;
+
 //This is what the players and NPCs are made from.
 public class Entity {
     private final static int BASE_HP = 10;
@@ -16,7 +18,7 @@ public class Entity {
     private String name;
     private String location = "town";
     private int coins;
-    private String[] inventory;
+    private ArrayList<String> inventory;
     private int battles = 0;
 
 
@@ -25,7 +27,7 @@ public class Entity {
         isAlive = true;
         inCombat = false;
         isComputer = false;
-        inventory = new String[]{"Air", "Air", "Air", "Air"};
+        inventory = new ArrayList<>();
         battles = 0;
         this.level = level;
         setXPFromLevel();
@@ -38,7 +40,7 @@ public class Entity {
         isComputer = computer;
         isAlive = true;
         inCombat = true;
-        inventory = new String[]{"Air", "Air", "Air", "Air"};
+        inventory = new ArrayList<>();
         battles = 0;
         this.level = 1;
         setXPFromLevel();
@@ -52,7 +54,7 @@ public class Entity {
         this.isComputer = computer;
         this.isAlive = true;
         this.inCombat = true;
-        inventory = new String[]{"Air", "Air", "Air", "Air"};
+        inventory = new ArrayList<>();
         setXPFromLevel();
         this.hp = BASE_HP + (level * HP_MULTIPLIER);
         this.maxHP = BASE_HP + (level * HP_MULTIPLIER);
@@ -171,16 +173,16 @@ public class Entity {
         this.coins += amount;
     }
 
-    public String[] getInventory() {
+    public ArrayList<String> getInventory() {
         return inventory;
     }
 
-    public void setInventory(String[] inventory) {
+    public void setInventory(ArrayList<String> inventory) {
         this.inventory = inventory;
     }
 
     public void resetInventory() {
-        this.inventory = new String[]{"Air", "Air", "Air", "Air"};
+        this.inventory = new ArrayList<>();
     }
 
     public int getBattles() {

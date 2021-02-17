@@ -1,13 +1,13 @@
 package com.justinmtech.thewild.entity.skill_logic.skills;
 
 import com.justinmtech.thewild.entity.Entity;
-import com.justinmtech.thewild.entity.skill_logic.CombatSkillsUtil;
+import com.justinmtech.thewild.entity.skill_logic.SetCombatMultipliers;
 import com.justinmtech.thewild.utilities.RandomNumberGenerator;
 
 import java.util.ArrayList;
 
 //A skill that allows the user to try to leave a battle mid-fight.
-public class Flea extends CombatSkillsUtil {
+public class Flea extends SetCombatMultipliers {
     private Entity attacker;
     private Entity defender;
     private ArrayList<Entity> entities;

@@ -6,16 +6,15 @@ import com.justinmtech.thewild.utilities.ScanInput;
 
 //The quit command.
 //Quits the game and optionally saves your data.
-public class Quit {
-    private final Entity player;
-
+public class Quit extends Command {
     public Quit(Entity player) {
-        this.player = player;
+        setLabel("quit");
+        setPlayer(player);
         tryQuit();
     }
 
     private void tryQuit() {
-        if (!player.isInCombat()) {
+        if (!getPlayer().isInCombat()) {
             System.out.println("Are you sure you want to quit?");
 
             //Listen for "yes" input, and quit if entered

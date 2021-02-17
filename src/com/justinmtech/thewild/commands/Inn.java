@@ -5,26 +5,26 @@ import com.justinmtech.thewild.utilities.ScanInput;
 
 //The Inn command, usable while in town.
 //Using the Inn heals the player for a cost.
-public class Inn {
-    private final Entity player;
+public class Inn extends Command {
     //The cost to stay in the Inn
-    private final static int COST_TO_STAY = 6;
+    private final static int COST_TO_STAY = 2;
 
     public Inn(Entity player) {
-        this.player = player;
+        setLabel("inn");
+        setPlayer(player);
         loop();
     }
 
     //Initiate the Inn loop until the player leaves or gets a room.
     private void loop() {
         welcome();
-        scanInput(player);
+        scanInput(getPlayer());
     }
 
     //Display a welcome message.
     private void welcome() {
         System.out.println("> Gunthor: Welcome traveller.");
-        System.out.println("> Gunthor: Would you like a room? It's 2 Coins for a night.");
+        System.out.println("> Gunthor: Would you like a room? It's " + COST_TO_STAY + " Coins for a night.");
     }
 
     //Listen to the player's commands while visiting the inn.

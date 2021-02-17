@@ -10,6 +10,8 @@ import com.justinmtech.thewild.utilities.ScanInput;
 
 import java.util.ArrayList;
 
+//TODO determine if there is a better way to route commands from an input.
+//TODO Maps may be a better way to store commands instead of using long else if statements.
 //Listen for commands and execute them.
 public class CommandParser {
     private final Entity player;
@@ -21,29 +23,18 @@ public class CommandParser {
 
     public void parseCommand() {
         input = ScanInput.getString();
-        if (input.equalsIgnoreCase("help")) {
-            new Help(player);
-        } else if (input.equalsIgnoreCase("info")) {
-            new Info(player);
-        } else if (input.equalsIgnoreCase("shop")) {
-            new Shop(player);
-        } else if (input.equalsIgnoreCase("inn")) {
-            new Inn(player);
-        } else if (input.equalsIgnoreCase("wild")) {
-            new Wild(player);
-        } else if (input.equalsIgnoreCase("town")) {
-            new Town(player);
-        } else if (input.equalsIgnoreCase("battle")) {
-            new Battle(player);
-            new Info(player);
-        } else if (input.equalsIgnoreCase("quit")) {
-            new Quit(player);
-        } else if (input.equalsIgnoreCase("save")) {
-            //command.save();
-        } else if (input.equalsIgnoreCase("load")) {
-            //command.load();
-        } else {
-            System.out.println("> Command not found.. Type 'help' for help.");
+        switch (input) {
+            case ("help"): new Help(player); break;
+            case ("info"): new Info(player); break;
+            case ("shop"): new Shop(player); break;
+            case ("inn"): new Inn(player); break;
+            case ("wild"): new Wild(player); break;
+            case ("town"): new Town(player); break;
+            case ("battle"): new Battle(player); break;
+            case ("quit"): new Quit(player); break;
+            default:
+                System.out.println("> Command not found.. Type 'help' for help.");
+                break;
         }
     }
 
@@ -53,25 +44,26 @@ public class CommandParser {
         entities.add(defender);
         input = ScanInput.getString();
 
-        if (input.equalsIgnoreCase("slash")) {
-            Slash slash = new Slash(attacker, defender);
-            return slash.attack();
-        } else if (input.equalsIgnoreCase("stab")) {
-            Stab stab = new Stab(attacker, defender);
-            return stab.attack();
-        } else if (input.equalsIgnoreCase("heal")) {
-            Heal heal = new Heal(attacker, defender);
-            return heal.doHeal();
-        } else if (input.equalsIgnoreCase("flea")) {
-            Flea flea = new Flea(attacker, defender);
-            return flea.tryFlea();
-        } else if (input.equalsIgnoreCase("quit")) {
-            System.out.println("You can't quit while in combat!");
-            return entities;
-        } else {
-            System.out.println("Unknown command:");
-            System.out.println("> slash, stab, heal, flea");
-            return entities;
+        switch (input) {
+            case "slash" :
+                Slash slash = new Slash(attacker, defender);
+                return slash.attack();
+            case "stab" :
+                Stab stab = new Stab(attacker, defender);
+                return stab.attack();
+            case "heal" :
+                Heal heal = new Heal(attacker, defender);
+                return heal.doHeal();
+            case "flea" :
+                Flea flea = new Flea(attacker, defender);
+                return flea.tryFlea();
+            case "quit" :
+                System.out.println("You can't quit while in combat!");
+                return entities;
+            default :
+                System.out.println("Unknown command:");
+                System.out.println("> slash, stab, heal, flea");
+                return entities;
         }
     }
 }

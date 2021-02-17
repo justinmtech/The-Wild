@@ -5,22 +5,22 @@ import com.justinmtech.thewild.user_interface.Display;
 
 //The town command.
 //Takes the player to town if they meet the requirements!
-public class Town {
-    private final Entity player;
-    private final Display display;
+public class Town extends Command {
 
     public Town(Entity player) {
-        this.player = player;
-        this.display = new Display();
+        setLabel("town");
+        setPlayer(player);
+        setDisplay(new Display());
         goToTown();
     }
 
+    //Change the player's location to "town" if they meet requirements.
     private void goToTown() {
-        if (!player.isInCombat() && !player.getLocation().equals("town")) {
-            player.setLocation("town");
-            display.returnTown();
-        } else if (player.getLocation().equals("town")) {
-            display.alreadyInTown();
+        if (!getPlayer().isInCombat() && !getPlayer().getLocation().equals("town")) {
+            getPlayer().setLocation("town");
+            getDisplay().returnTown();
+        } else if (getPlayer().getLocation().equals("town")) {
+            getDisplay().alreadyInTown();
         }
     }
 }

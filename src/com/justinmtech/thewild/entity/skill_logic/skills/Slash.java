@@ -1,15 +1,15 @@
 package com.justinmtech.thewild.entity.skill_logic.skills;
 
 import com.justinmtech.thewild.entity.Entity;
-import com.justinmtech.thewild.entity.skill_logic.CombatSkillsUtil;
+import com.justinmtech.thewild.entity.skill_logic.SetCombatMultipliers;
 import com.justinmtech.thewild.utilities.RandomNumberGenerator;
 
 import java.util.ArrayList;
 
 //The basic punch/slash attack, used with or without a weapon.
-public class Slash extends CombatSkillsUtil {
-    private Entity attacker;
-    private Entity defender;
+public class Slash extends SetCombatMultipliers {
+    private final Entity attacker;
+    private final Entity defender;
 
     public Slash(Entity attacker, Entity defender) {
         this.attacker = attacker;

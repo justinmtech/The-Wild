@@ -81,11 +81,9 @@ public class Display {
         System.out.println("Location: " + player.getLocation());
         System.out.print("Inventory: ");
         int i;
-        for (i = 0; i < player.getInventory().length; i++) {
-            if (!player.getInventory()[i].equalsIgnoreCase("Air")) {
-                System.out.print(player.getInventory()[i] + " ");
+        for (i = 0; i < player.getInventory().size(); i++) {
+                System.out.print(player.getInventory().get(i) + " ");
             }
-        }
         System.out.println();
         line();
     }

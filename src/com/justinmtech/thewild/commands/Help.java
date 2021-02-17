@@ -5,21 +5,19 @@ import com.justinmtech.thewild.user_interface.Display;
 
 //The help command.
 //This command lists help commands based on what situation your character is in.
-public class Help {
-    private final Entity player;
-    private final Display display;
+public class Help extends Command {
 
     public Help(Entity player) {
-        this.player = player;
-        this.display = new Display();
-        showHelp();
+        setLabel("help");
+        setDisplay(new Display());
+        setPlayer(player);
     }
 
     //Help command logic
-    private void showHelp() {
-            if (player.getLocation().equals("town")) display.townHelp();
-            else if (player.getLocation().equals("wild") && player.isInCombat()) display.combatHelp();
-            else if (player.getLocation().equals("wild")) display.wildHelp();
-            else display.otherHelp();
+    public void showHelp() {
+            if (getPlayer().getLocation().equals("town")) getDisplay().townHelp();
+            else if (getPlayer().getLocation().equals("wild") && getPlayer().isInCombat()) getDisplay().combatHelp();
+            else if (getPlayer().getLocation().equals("wild")) getDisplay().wildHelp();
+            else getDisplay().otherHelp();
         }
 }

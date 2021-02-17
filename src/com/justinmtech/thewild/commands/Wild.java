@@ -5,22 +5,22 @@ import com.justinmtech.thewild.user_interface.Display;
 
 //The wild command.
 //This takes your player to the wilderness, where enemies can be fought.
-public class Wild {
-    private final Entity player;
-    private final Display display;
+public class Wild extends Command {
 
     public Wild(Entity player) {
-        this.player = player;
-        this.display = new Display();
+        setLabel("wild");
+        setPlayer(player);
+        setDisplay(new Display());
         tryWild();
     }
 
+    //Try to take the player to the wilderness.
     private void tryWild() {
-        if (player.isInCombat() || player.getLocation().equals("wild")) {
+        if (getPlayer().isInCombat() || getPlayer().getLocation().equals("wild")) {
             System.out.println("You are already in the wild!");
         } else {
-            display.goToWild();
-            player.setLocation("wild");
+            getDisplay().goToWild();
+            getPlayer().setLocation("wild");
         }
     }
 }
