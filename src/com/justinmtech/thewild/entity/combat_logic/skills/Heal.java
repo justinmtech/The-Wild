@@ -21,6 +21,10 @@ public class Heal extends SetCombatMultipliers {
     public ArrayList<Entity> doHeal() {
         ArrayList<Entity> entities = new ArrayList<>();
         attacker.addHP(RandomNumberGenerator.generate(getBaseSkillMultiplier(), getMaxSkillMultiplier()) * levelMultiplier(attacker));
+        //Prevent healing above max hp
+        if (attacker.getHp() > attacker.getMaxHP()) {
+            attacker.setHp(attacker.getMaxHP());
+        }
         entities.add(attacker);
         entities.add(defender);
         return entities;

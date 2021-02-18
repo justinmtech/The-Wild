@@ -23,30 +23,26 @@ public class PlayerDataHandler {
         }
     }
 
-    public Entity load(String username) {
-        try {
-            SaveData data = (SaveData) ResourceManager.load("player-data/" + username + ".data");
+    public Entity load(String username) throws Exception {
+        SaveData data = (SaveData) ResourceManager.load("player-data/" + username + ".data");
 
-            String playerName = data.name;
-            double playerHP = data.hp;
-            int playerCoins = data.coins;
-            int playerXP = data.xp;
-            String playerLoc = data.location;
-            String[] playerInv = data.inventory;
+        String playerName = data.name;
+        double playerHP = data.hp;
+        int playerCoins = data.coins;
+        int playerXP = data.xp;
+        String playerLoc = data.location;
+        String[] playerInv = data.inventory;
 
-            player = new Entity();
-            player.setName(playerName);
-            player.setHp(playerHP);
-            player.setCoins(playerCoins);
-            player.setXp(playerXP);
-            player.setLocation(playerLoc);
-            player.setInventory(playerInv);
+        player = new Entity();
+        player.setName(playerName);
+        player.setHp(playerHP);
+        player.setCoins(playerCoins);
+        player.setXp(playerXP);
+        player.setLocation(playerLoc);
+        player.setInventory(playerInv);
 
-            System.out.println("Data loaded!");
-        }
-        catch (Exception e) {
-            System.out.println("Couldn't load save data: " + e.getMessage());
-        }
+        System.out.println("Data loaded!");
+
         return player;
     }
 }

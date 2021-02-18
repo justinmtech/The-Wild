@@ -11,43 +11,37 @@ public class Game {
     private PlayerDataHandler data;
     private String username;
     private Entity player;
-    private Entity loadedPlayer;
     private final Display display;
     private CommandParser commandParser;
     public static boolean gameRunning = true;
 
     public Game() {
-        loadedPlayer = new Entity();
-        player = new Entity("Player", 5, 100);
         data = new PlayerDataHandler();
         display = new Display();
     }
 
-    public void game() throws Exception {
+    public void game() {
         display.welcome();
         username = ScanInput.getString();
-
-        try {
-            loadedPlayer = new Entity();
-            loadedPlayer = loadData();
-            commandParser = new CommandParser(loadedPlayer);
-            display.greeting(player);
-            display.farewell();
-        } catch (NullPointerException e) {
-            System.out.println(e.getCause());
-            commandParser = new CommandParser(player);
-            player.setName(username);
-            display.greeting(player);
-            display.farewell();
-        }
-
+        loadDataIfExists();
         while (gameRunning) {
             commandParser.parseCommand();
         }
     }
 
-    private Entity loadData() throws Exception {
-        return data.load(username);
+    //Load data if exists and create new player if not
+    private void loadDataIfExists() {
+        try {
+            player = data.load(username);
+            commandParser = new CommandParser(player);
+            display.greeting(player);
+            display.farewell();
+        } catch (Exception e) {
+            player = new Entity(username, 5, 100);
+            commandParser = new CommandParser(player);
+            display.greeting(player);
+            display.farewell();
+        }
     }
 
     //Stop the game
