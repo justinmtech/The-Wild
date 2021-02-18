@@ -2,9 +2,12 @@ package com.justinmtech.thewild.data;
 
 import com.justinmtech.thewild.entity.Entity;
 
+//Handles the saving and loading of player data.
+//Player data is saved in player-data in the format (username).data
 public class PlayerDataHandler {
-    private Entity player;
 
+    //Data is saved only when the player quits the game successfully with 'quit'
+    //Logic can be found in Quit
     public void save(Entity player) {
         SaveData data = new SaveData();
 
@@ -23,6 +26,7 @@ public class PlayerDataHandler {
         }
     }
 
+    //Data is loaded from the Game class
     public Entity load(String username) throws Exception {
         SaveData data = (SaveData) ResourceManager.load("player-data/" + username + ".data");
 
@@ -33,7 +37,7 @@ public class PlayerDataHandler {
         String playerLoc = data.location;
         String[] playerInv = data.inventory;
 
-        player = new Entity();
+        Entity player = new Entity();
         player.setName(playerName);
         player.setHp(playerHP);
         player.setCoins(playerCoins);
