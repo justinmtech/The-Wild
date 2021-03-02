@@ -1,7 +1,7 @@
 package com.justinmtech.thewild.testing;
 
 import com.justinmtech.thewild.entity.Entity;
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.Test;
 
 import static org.junit.Assert.assertEquals;
 

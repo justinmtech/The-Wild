@@ -1,5 +1,6 @@
 package com.justinmtech.thewild.commands;
 
+import com.justinmtech.thewild.data.LoadConfiguration;
 import com.justinmtech.thewild.entity.Entity;
 import com.justinmtech.thewild.utilities.ScanInput;
 
@@ -7,9 +8,12 @@ import com.justinmtech.thewild.utilities.ScanInput;
 //Takes the player to the "Inn", asks them if they want to stay, and heals them if they do
 public class Inn extends Command {
     //The cost to stay in the Inn
-    private final static int COST_TO_STAY = 2;
+    private final int COST_TO_STAY;
 
     public Inn(Entity player) {
+        LoadConfiguration config = new LoadConfiguration();
+        COST_TO_STAY = (int)config.getConfig().get("inn").get("cost");
+
         setLabel("inn");
         setPlayer(player);
         loop();

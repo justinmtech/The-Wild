@@ -1,29 +1,51 @@
 package com.justinmtech.thewild.entity.combat_logic;
 
+import com.justinmtech.thewild.data.LoadConfiguration;
 import com.justinmtech.thewild.entity.Entity;
+
+//TODO Make values here configurable from config.yml
 
 //A multiplier utility class used by everything that effects entity HP in combat including: skills, weapons/potions and entity levels.
 //Each weapon and set of armor has a designated TIER which acts as a multiplier for damage.
 public class SetCombatMultipliers {
+
+    public SetCombatMultipliers() {
+        LoadConfiguration config = new LoadConfiguration();
+        LEVEL_MULTIPLIER_BASE = (double)config.getConfig().get("level_multipliers").get("base");
+        INCREASE_MULTIPLIER_INCREMENT = (double)config.getConfig().get("level_multipliers").get("increment");
+        TIER_1 = (double)config.getConfig().get("multiplier_tiers").get("TIER_1");
+        TIER_2 = (double)config.getConfig().get("multiplier_tiers").get("TIER_2");
+        TIER_2B = (double)config.getConfig().get("multiplier_tiers").get("TIER_2B");
+        TIER_3 = (double)config.getConfig().get("multiplier_tiers").get("TIER_3");
+        TIER_3B = (double)config.getConfig().get("multiplier_tiers").get("TIER_3B");
+        TIER_4 = (double)config.getConfig().get("multiplier_tiers").get("TIER_4");
+        TIER_4B = (double)config.getConfig().get("multiplier_tiers").get("TIER_4B");
+        TIER_5 = (double)config.getConfig().get("multiplier_tiers").get("TIER_5");
+        TIER_5B = (double)config.getConfig().get("multiplier_tiers").get("TIER_5B");
+        TIER_6 = (double)config.getConfig().get("multiplier_tiers").get("TIER_6");
+    }
+
     //The available weapon, armor and potion tiers
-    private final static double TIER_1 = 1;
-    private final static double TIER_2 = 2;
-    private final static double TIER_2B = 2.5;
-    private final static double TIER_3 = 3;
-    private final static double TIER_3B = 3.5;
-    private final static double TIER_4 = 4;
-    private final static double TIER_4B = 4.5;
-    private final static double TIER_5 = 5;
-    private final static double TIER_5B = 5.5;
-    private final static double TIER_6 = 6;
+    private final double TIER_1;
+    private final double TIER_2;
+    private final double TIER_2B;
+    private final double TIER_3;
+    private final double TIER_3B;
+    private final double TIER_4;
+    private final double TIER_4B;
+    private final double TIER_5;
+    private final double TIER_5B;
+    private final double TIER_6;
 
     //This amount is added to the level multiplier formula to prevent negative values at low entity levels.
     //Setting this lower than 1 is not recommended.
-    private final static double LEVEL_MULTIPLIER_BASE = 1;
+    private final double LEVEL_MULTIPLIER_BASE;
+
+
     //The rate at which an entity's level multiplier increases.
     //A setting of 5 means their multiplier increases at every 5th level (lvl 5, 10, 15, etc).
     //A setting of 1 means their multiplier increases by 1 every level gained (lvl 1, 2, 3, etc).
-    private final static double INCREASE_MULTIPLIER_INCREMENT = 5;
+    private final double INCREASE_MULTIPLIER_INCREMENT;
 
     //This should equal where the sword, armor and potions are stored the inventory string index.
     //Items are assigned inventory slots in the Shop class when they are purchased.

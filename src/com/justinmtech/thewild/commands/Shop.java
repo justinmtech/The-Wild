@@ -1,5 +1,6 @@
 package com.justinmtech.thewild.commands;
 
+import com.justinmtech.thewild.data.LoadConfiguration;
 import com.justinmtech.thewild.entity.Entity;
 import com.justinmtech.thewild.user_interface.Display;
 import com.justinmtech.thewild.utilities.ScanInput;
@@ -8,23 +9,23 @@ import com.justinmtech.thewild.utilities.ScanInput;
 //A shop for purchasing armor and weapons.
 public class Shop extends Command {
     //Below is all of the items stocked and their cost
-    private static final int BRONZE_SHORT_SWORD_COST = 12;
-    private static final int BRONZE_LONG_SWORD_COST = 36;
-    private static final int IRON_SHORT_SWORD_COST = 48;
-    private static final int IRON_LONG_SWORD_COST = 144;
-    private static final int STEEL_SHORT_SWORD_COST = 192;
-    private static final int STEEL_LONG_SWORD_COST = 576;
-    private static final int DIAMOND_SHORT_SWORD_COST = 768;
-    private static final int DIAMOND_LONG_SWORD_COST = 2_304;
-    private static final int LEATHER_ARMOR_COST = 46;
-    private static final int BRONZE_ARMOR_COST = 230;
-    private static final int IRON_ARMOR_COST = 1_150;
-    private static final int STEEL_ARMOR_COST = 5_750;
-    private static final int DIAMOND_ARMOR_COST = 28_750;
-    private static final int COMMON_HEALING_POTION_COST = 24;
-    private static final int UNCOMMON_HEALING_POTION_COST = 48;
-    private static final int RARE_HEALING_POTION_COST = 96;
-    private static final int LEGENDARY_HEALING_POTION_COST = 192;
+    private final int BRONZE_SHORT_SWORD_COST;
+    private final int BRONZE_LONG_SWORD_COST;
+    private final int IRON_SHORT_SWORD_COST;
+    private final int IRON_LONG_SWORD_COST;
+    private final int STEEL_SHORT_SWORD_COST;
+    private final int STEEL_LONG_SWORD_COST;
+    private final int DIAMOND_SHORT_SWORD_COST;
+    private final int DIAMOND_LONG_SWORD_COST;
+    private final int LEATHER_ARMOR_COST;
+    private final int BRONZE_ARMOR_COST;
+    private final int IRON_ARMOR_COST;
+    private final int STEEL_ARMOR_COST;
+    private final int DIAMOND_ARMOR_COST;
+    private final int COMMON_HEALING_POTION_COST;
+    private final int UNCOMMON_HEALING_POTION_COST;
+    private final int RARE_HEALING_POTION_COST;
+    private final int LEGENDARY_HEALING_POTION_COST;
     private static final String[] stock = {"Bronze_Short_Sword", "Bronze_Long_Sword",
             "Iron_Short_Sword", "Iron_Long_Sword",
             "Steel_Short_Sword", "Steel_Long_Sword",
@@ -35,6 +36,25 @@ public class Shop extends Command {
     private boolean hasLeftShop;
 
     public Shop(Entity player) {
+        LoadConfiguration config = new LoadConfiguration();
+        BRONZE_SHORT_SWORD_COST = (int)config.getConfig().get("shop_prices").get("BRONZE_SHORT_SWORD");
+        BRONZE_LONG_SWORD_COST = (int)config.getConfig().get("shop_prices").get("BRONZE_LONG_SWORD");
+        IRON_SHORT_SWORD_COST = (int)config.getConfig().get("shop_prices").get("IRON_SHORT_SWORD");
+        IRON_LONG_SWORD_COST = (int)config.getConfig().get("shop_prices").get("IRON_LONG_SWORD");
+        STEEL_SHORT_SWORD_COST = (int)config.getConfig().get("shop_prices").get("STEEL_SHORT_SWORD");
+        STEEL_LONG_SWORD_COST = (int)config.getConfig().get("shop_prices").get("STEEL_LONG_SWORD");
+        DIAMOND_SHORT_SWORD_COST = (int)config.getConfig().get("shop_prices").get("DIAMOND_SHORT_SWORD");
+        DIAMOND_LONG_SWORD_COST = (int)config.getConfig().get("shop_prices").get("DIAMOND_LONG_SWORD");
+        LEATHER_ARMOR_COST = (int)config.getConfig().get("shop_prices").get("LEATHER_ARMOR");
+        BRONZE_ARMOR_COST = (int)config.getConfig().get("shop_prices").get("BRONZE_ARMOR");
+        IRON_ARMOR_COST = (int)config.getConfig().get("shop_prices").get("IRON_ARMOR");
+        STEEL_ARMOR_COST = (int)config.getConfig().get("shop_prices").get("STEEL_ARMOR");
+        DIAMOND_ARMOR_COST = (int)config.getConfig().get("shop_prices").get("DIAMOND_ARMOR");
+        UNCOMMON_HEALING_POTION_COST = (int)config.getConfig().get("shop_prices").get("UNCOMMON_HEALING_POTION");
+        COMMON_HEALING_POTION_COST = (int)config.getConfig().get("shop_prices").get("COMMON_HEALING_POTION");
+        RARE_HEALING_POTION_COST = (int)config.getConfig().get("shop_prices").get("RARE_HEALING_POTION");
+        LEGENDARY_HEALING_POTION_COST = (int)config.getConfig().get("shop_prices").get("LEGENDARY_HEALING_POTION");
+
         setLabel("shop");
         setPlayer(player);
         setDisplay(new Display());

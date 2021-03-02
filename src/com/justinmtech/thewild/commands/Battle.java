@@ -1,5 +1,6 @@
 package com.justinmtech.thewild.commands;
 
+import com.justinmtech.thewild.data.LoadConfiguration;
 import com.justinmtech.thewild.entity.Entity;
 import com.justinmtech.thewild.entity.combat_logic.EnemyAI;
 import com.justinmtech.thewild.user_interface.CommandParser;
@@ -12,17 +13,24 @@ import java.util.ArrayList;
 //Used for organizing battle instances when the player issues the "battle" command in the wild.
 //This class handles all logic around the battles of entities.
 public class Battle extends Command {
-    private final static int CPU_LEVEL_DIFFERENCE_LOW = 4;
-    private final static int CPU_LEVEL_DIFFERENCE_HIGH = 2;
-    private final static int COIN_LOOT_MULTIPLIER = 4;
-    private final static int XP_MULTIPLIER_LOW = 2;
-    private final static int XP_MULTIPLIER_HIGH = 20;
+    private final int CPU_LEVEL_DIFFERENCE_LOW;
+    private final int CPU_LEVEL_DIFFERENCE_HIGH;
+    private final int COIN_LOOT_MULTIPLIER;
+    private final int XP_MULTIPLIER_LOW;
+    private final int XP_MULTIPLIER_HIGH;
 
     private final CommandParser parser;
     private final EnemyAI enemyAI;
     private ArrayList<Entity> entities;
 
     public Battle(Entity player) {
+        LoadConfiguration config = new LoadConfiguration();
+        CPU_LEVEL_DIFFERENCE_LOW = (int)config.getConfig().get("battle").get("CPU_LEVEL_DIFFERENCE_LOW");
+        CPU_LEVEL_DIFFERENCE_HIGH = (int)config.getConfig().get("battle").get("CPU_LEVEL_DIFFERENCE_HIGH");
+        COIN_LOOT_MULTIPLIER = (int)config.getConfig().get("battle").get("COIN_LOOT_MULTIPLIER");
+        XP_MULTIPLIER_LOW = (int)config.getConfig().get("battle").get("XP_MULTIPLIER_LOW");
+        XP_MULTIPLIER_HIGH = (int)config.getConfig().get("battle").get("XP_MULTIPLIER_HIGH");
+
         setLabel("battle");
         setPlayer(player);
         player.setInCombat(true);
