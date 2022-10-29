@@ -17,8 +17,8 @@ Upon the game opening, it will ask you for a username. If you type a username th
 
 Use the '/help' command in-game to display commands you can use in your context.
 
-> info - get player info 
-> wild - go to the wilderness
-> shop - visit the local shop
-> inn - visit the town inn
-> quit - save and quit the game
+- info - get player info 
+- wild - go to the wilderness
+- shop - visit the local shop
+- inn - visit the town inn
+- quit - save and quit the game
