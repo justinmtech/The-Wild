@@ -11,8 +11,7 @@ A text-based RPG game with a currency, fighting system, weapons, armor, teleport
 
 # Accounts
 
-Upon the game opening, it will ask you for a username. If you type a username that has data saved in player-data, it will load it.
-If there is no saved game for that username, it will create a new character.
+Upon the game opening, it will ask you for a username. If you type a username that has data saved in player-data, it will load it. If there's no saved game for that username, it will create a new character.
 
 # Commands
 
@@ -22,6 +21,6 @@ Use the '/help' command in-game to display commands you can use in your context.
 > wild - go to the wilderness
 > shop - visit the local shop
 > inn - visit the town inn
-> quit - quit the game
+> quit - save and quit the game
 
 
