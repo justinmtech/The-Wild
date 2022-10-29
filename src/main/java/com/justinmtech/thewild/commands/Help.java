@@ -11,6 +11,7 @@ public class Help extends Command {
         setLabel("help");
         setDisplay(new Display());
         setPlayer(player);
+        showHelp();
     }
 
     //Help command logic

@@ -46,7 +46,7 @@ public class Display {
         System.out.println("> wild - go to the wilderness");
         System.out.println("> shop - visit the local shop");
         System.out.println("> inn - visit the town inn");
-        System.out.println("> quit - quit the game");
+        System.out.println("> quit - save and quit");
     }
 
     //Help that shows while in town
