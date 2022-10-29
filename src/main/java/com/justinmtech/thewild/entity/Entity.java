@@ -46,18 +46,6 @@ public class Entity {
         setMaxHP(BASE_HP + (level * HP_MULTIPLIER));
     }
 
-    //Creates a basic NPC entity
-    public Entity(boolean computer) {
-        setComputer(computer);
-        setInCombat(true);
-        setInventory(new String[]{"", "", ""});
-        setBattles(0);
-        setLevel(1);
-        setXPFromLevel();
-        setHp(COMPUTER_BASE_HP + (level * HP_MULTIPLIER));
-        setMaxHP(COMPUTER_BASE_HP + (level * HP_MULTIPLIER));
-    }
-
     //Creates an entity based on name and level, with the option of
     //being a computer.
     public Entity(String name, int level, boolean computer) {
@@ -217,7 +205,7 @@ public class Entity {
         }
     }
 
-    //Sets the entity's XP bsaed on the level they are
+    //Sets the entity's XP based on the level they are
     private void setXPFromLevel() {
         xp = level * XP_SCALE;
         if (level == 1) {

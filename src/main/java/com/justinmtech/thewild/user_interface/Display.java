@@ -94,10 +94,6 @@ public class Display {
         line();
     }
 
-    public void alreadyInWild() {
-        System.out.println("You are already in the wild!");
-    }
-
     public void alreadyInTown() {
         System.out.println("You are already in town!");
     }
@@ -117,14 +113,6 @@ public class Display {
         System.out.println("> slash, stab, heal, flea");
     }
 
-    public void searchBattle() {
-        System.out.println("*Searching for an enemy*");
-    }
-
-    public void noEnemiesNear() {
-        System.out.println("There are no enemies nearby.");
-    }
-
     public void line() {
         System.out.println("----------------------------------------------");
     }
@@ -141,7 +129,4 @@ public class Display {
         System.out.println("> Guard: Use 'wild' to go adventure in the wild or 'help' for a list of commands.");
     }
 
-    public void goToInn() {
-            System.out.println("*You walk to the local inn*");
-    }
 }

@@ -9,11 +9,4 @@ public class ScanInput {
         return scanner.next().trim();
     }
 
-    public static boolean getBoolean() {
-        return scanner.nextBoolean();
-    }
-
-    public static int getInt() {
-        return scanner.nextInt();
-    }
 }

@@ -7,8 +7,8 @@ import com.justinmtech.thewild.utilities.RandomNumberGenerator;
 import java.util.ArrayList;
 
 public class Stab extends SetCombatMultipliers {
-    private Entity attacker;
-    private Entity defender;
+    private final Entity attacker;
+    private final Entity defender;
     public Stab(Entity attacker, Entity defender) {
         this.attacker = attacker;
         this.defender = defender;

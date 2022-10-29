@@ -2,7 +2,7 @@ package com.justinmtech.thewild.persistence;
 
 public class SaveData implements java.io.Serializable {
 
-    private static final long serialVersionUID = 1l;
+    private static final long serialVersionUID = 1L;
 
     public String name;
     public double hp;

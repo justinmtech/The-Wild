@@ -1,14 +1,15 @@
 package com.justinmtech.thewild.commands;
 
-import com.justinmtech.thewild.persistence.LoadConfiguration;
+import com.justinmtech.thewild.utilities.ConfigHandler;
 import com.justinmtech.thewild.entity.Entity;
 import com.justinmtech.thewild.user_interface.Display;
 import com.justinmtech.thewild.utilities.ScanInput;
 
 //The shop command.
 //A shop for purchasing armor and weapons.
+@SuppressWarnings("SuspiciousMethodCalls")
 public class Shop extends Command {
-    //Below is all of the items stocked and their cost
+    //Below is all the items stocked and their cost
     private final int BRONZE_SHORT_SWORD_COST;
     private final int BRONZE_LONG_SWORD_COST;
     private final int IRON_SHORT_SWORD_COST;
@@ -36,7 +37,7 @@ public class Shop extends Command {
     private boolean hasLeftShop;
 
     public Shop(Entity player) {
-        LoadConfiguration config = new LoadConfiguration();
+        ConfigHandler config = new ConfigHandler();
         BRONZE_SHORT_SWORD_COST = (int)config.getConfig().get("shop_prices").get("BRONZE_SHORT_SWORD");
         BRONZE_LONG_SWORD_COST = (int)config.getConfig().get("shop_prices").get("BRONZE_LONG_SWORD");
         IRON_SHORT_SWORD_COST = (int)config.getConfig().get("shop_prices").get("IRON_SHORT_SWORD");
@@ -91,8 +92,8 @@ public class Shop extends Command {
 
     //The items for sale in the shop.
     private void displayItems() {
-        for (int i = 0; i < stock.length; i++) {
-            System.out.println(stock[i] + " [" + getCostFromCommand(stock[i]) + " Coins] ");
+        for (String s : stock) {
+            System.out.println(s + " [" + getCostFromCommand(s) + " Coins] ");
         }
     }
 
@@ -189,9 +190,10 @@ public class Shop extends Command {
     //Check if an item is in stock and return true/false.
     private boolean isItemInStock(String input) {
         boolean inStock = false;
-        for (int i = 0; i < stock.length; i++) {
-            if (input.equals(stock[i])) {
+        for (String s : stock) {
+            if (input.equals(s)) {
                 inStock = true;
+                break;
             }
         }
         return inStock;

@@ -1,17 +1,18 @@
 package com.justinmtech.thewild.commands;
 
-import com.justinmtech.thewild.persistence.LoadConfiguration;
+import com.justinmtech.thewild.utilities.ConfigHandler;
 import com.justinmtech.thewild.entity.Entity;
 import com.justinmtech.thewild.utilities.ScanInput;
 
 //The Inn command, usable while in town.
 //Takes the player to the "Inn", asks them if they want to stay, and heals them if they do
+@SuppressWarnings("SuspiciousMethodCalls")
 public class Inn extends Command {
     //The cost to stay in the Inn
     private final int COST_TO_STAY;
 
     public Inn(Entity player) {
-        LoadConfiguration config = new LoadConfiguration();
+        ConfigHandler config = new ConfigHandler();
         COST_TO_STAY = (int)config.getConfig().get("inn").get("cost");
 
         setLabel("inn");

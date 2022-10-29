@@ -1,6 +1,6 @@
 package com.justinmtech.thewild.commands;
 
-import com.justinmtech.thewild.persistence.LoadConfiguration;
+import com.justinmtech.thewild.utilities.ConfigHandler;
 import com.justinmtech.thewild.entity.Entity;
 import com.justinmtech.thewild.entity.combat_logic.EnemyAI;
 import com.justinmtech.thewild.user_interface.CommandParser;
@@ -12,6 +12,7 @@ import java.util.List;
 //The battle command.
 //Used for organizing battle instances when the player issues the "battle" command in the wild.
 //This class handles all logic around the battles of entities.
+@SuppressWarnings("SuspiciousMethodCalls")
 public class Battle extends Command {
     private final int CPU_LEVEL_DIFFERENCE_LOW;
     private final int CPU_LEVEL_DIFFERENCE_HIGH;
@@ -24,7 +25,7 @@ public class Battle extends Command {
     private List<Entity> entities;
 
     public Battle(Entity player) {
-        LoadConfiguration config = new LoadConfiguration();
+        ConfigHandler config = new ConfigHandler();
         CPU_LEVEL_DIFFERENCE_LOW = (int)config.getConfig().get("battle").get("CPU_LEVEL_DIFFERENCE_LOW");
         CPU_LEVEL_DIFFERENCE_HIGH = (int)config.getConfig().get("battle").get("CPU_LEVEL_DIFFERENCE_HIGH");
         COIN_LOOT_MULTIPLIER = (int)config.getConfig().get("battle").get("COIN_LOOT_MULTIPLIER");

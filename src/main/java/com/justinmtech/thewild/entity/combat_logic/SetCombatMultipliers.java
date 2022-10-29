@@ -1,16 +1,17 @@
 package com.justinmtech.thewild.entity.combat_logic;
 
-import com.justinmtech.thewild.persistence.LoadConfiguration;
+import com.justinmtech.thewild.utilities.ConfigHandler;
 import com.justinmtech.thewild.entity.Entity;
 
 //TODO Make values here configurable from config.yml
 
 //A multiplier utility class used by everything that effects entity HP in combat including: skills, weapons/potions and entity levels.
 //Each weapon and set of armor has a designated TIER which acts as a multiplier for damage.
+@SuppressWarnings("SuspiciousMethodCalls")
 public class SetCombatMultipliers {
 
     public SetCombatMultipliers() {
-        LoadConfiguration config = new LoadConfiguration();
+        ConfigHandler config = new ConfigHandler();
         LEVEL_MULTIPLIER_BASE = (double)config.getConfig().get("level_multipliers").get("base");
         INCREASE_MULTIPLIER_INCREMENT = (double)config.getConfig().get("level_multipliers").get("increment");
         TIER_1 = (double)config.getConfig().get("multiplier_tiers").get("TIER_1");
@@ -52,7 +53,6 @@ public class SetCombatMultipliers {
     //Default: swords = 0, armor = 1, potions = 2
     private final static int SWORD_SLOT = 0;
     private final static int ARMOR_SLOT = 1;
-    private final static int POTION_SLOT = 2;
 
     public double levelMultiplier(Entity attacker) {
         return (attacker.getLevel() / INCREASE_MULTIPLIER_INCREMENT) + LEVEL_MULTIPLIER_BASE;

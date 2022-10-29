@@ -8,7 +8,7 @@ import com.justinmtech.thewild.utilities.ScanInput;
 //The quit command.
 //Quits the game and optionally saves your data.
 public class Quit extends Command {
-    private PlayerDataHandler data;
+    private final PlayerDataHandler data;
 
     public Quit(Entity player) {
         setLabel("quit");
